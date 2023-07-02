@@ -21,8 +21,10 @@ const connection = new sequelize_typescript_1.Sequelize({
     host: env_config_1.default.dbHost,
     username: env_config_1.default.dbUser,
     database: env_config_1.default.dbName,
+    password: env_config_1.default.dbPassword,
+    port: Number(env_config_1.default.dbPort) || 3306,
     logging: false,
-    models: [Test_1.Test]
+    models: [Test_1.Test],
 });
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
