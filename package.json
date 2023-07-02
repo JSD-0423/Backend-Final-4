@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"start:dev": "nodemon src/index.ts",
-		"build": "tsc",
+		"build": "npx tsc",
 		"start:prod": "node build"
 	},
 	"devDependencies": {
