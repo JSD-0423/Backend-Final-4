@@ -7,8 +7,10 @@ const connection = new Sequelize({
   host: envConfig.dbHost,
   username: envConfig.dbUser,
   database: envConfig.dbName,
+  password: envConfig.dbPassword,
+  port: Number(envConfig.dbPort) || 3306,
   logging: false,
-  models: [Test]
+  models: [Test],
 });
 
 export async function connect() {
