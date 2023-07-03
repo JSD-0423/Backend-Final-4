@@ -1,8 +1,7 @@
-require("dotenv").config();
-import express, { Application, json, urlencoded } from "express";
-import { connect } from "./connection/connect";
-import { testRouter } from "./routers/test.router";
-import cors from "cors";
+import express, { Application, json, urlencoded } from 'express';
+import { connect } from './connection/connect';
+import { testRouter } from './routers/test.router';
+import cors from 'cors';
 
 const app: Application = express();
 

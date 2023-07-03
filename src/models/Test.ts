@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType } from "sequelize-typescript";
+import { Table, Model, Column, DataType } from 'sequelize-typescript';
 
 
 @Table({
@@ -11,5 +11,5 @@ export class Test extends Model {
     type: DataType.STRING,
     allowNull: false
   })
-  name!: string;
+    name!: string;
 }
