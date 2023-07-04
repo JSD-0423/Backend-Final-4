@@ -15,3 +15,7 @@ An eCommerce API facilitates the development of an online store, allowing users 
 ## 📎 API Documentation
 
 SOON
+
+## 🎨 Design
+
+You can find the design for the frontend on Figma. [Design](https://www.figma.com/file/bHnMNcAuXI1Zd6lyf6Oj1X/PWA-eCommerce-Theme-(Community)?type=design&node-id=184-0&mode=design&t=YYBh5qmVZNlRpmCM-0)
