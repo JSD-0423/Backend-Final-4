@@ -7,3 +7,7 @@ An eCommerce API facilitates the development of an online store, allowing users 
 ## 📊 Database Schema
 
 ![Database Schema](./docs/schema.png)
+
+## 🌐 Deployed API
+
+[API](https://ecommerce-api-ex6g.onrender.com/test)
