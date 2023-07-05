@@ -11,8 +11,8 @@
   },
   "scripts": {
     "start:dev": "nodemon src/index.ts",
-    "build": "tsc",
-    "start:prod": "node build"
+    "build": "yarn install && tsc",
+    "start": "node build"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
