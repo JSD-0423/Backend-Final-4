@@ -1,4 +1,5 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Product } from './Product';
 
 
 @Table({
@@ -18,4 +19,13 @@ export class Review extends Model {
     allowNull: false,
   })
     body!: string;
+  
+  @ForeignKey(() => Product)
+  @Column({
+    type: DataType.INTEGER,
+  })
+    product_id!: number;
+  
+  @BelongsTo(() => Product)
+    product!: Product;
 }

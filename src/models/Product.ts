@@ -1,4 +1,5 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import { Review } from './Review';
 
 
 @Table({
@@ -37,4 +38,7 @@ export class Product extends Model {
     defaultValue: 0,
   })
     discount!: number;
+
+  @HasMany(() => Review)
+    reviews!: Review[];
 }
