@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import envConfig from '../config/env.config';
-import { Product } from '../models/Product';
-import { Review } from '../models/Review';
+import { Product, Review } from '../models';
 
 const connection = new Sequelize({
   dialect: 'mysql',
