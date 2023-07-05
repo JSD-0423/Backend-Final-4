@@ -1,6 +1,6 @@
 import express, { Application, json, urlencoded } from 'express';
 import { connect } from './connection/connect';
-import { testRouter } from './routers/test.router';
+import productsRouter from './routers/products.router';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 
@@ -15,7 +15,7 @@ app.use(cors({ origin: '*' }));
 connect();
 
 // Routes
-app.use('/test', testRouter);
+app.use('/products', productsRouter);
 
 // Post Middlewares
 app.use(errorHandler);
