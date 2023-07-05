@@ -27,7 +27,7 @@ export default class Product extends Model {
     color!: string;
   
   @Column({
-    type: DataType.DECIMAL(8, 2),
+    type: DataType.DOUBLE(5, 2),
     allowNull: false,
   })
     price!: number;

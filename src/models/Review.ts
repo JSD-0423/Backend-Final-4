@@ -9,7 +9,7 @@ import Product from './Product';
 
 export default class Review extends Model {
   @Column({
-    type: DataType.DECIMAL(2, 1),
+    type: DataType.DOUBLE(3, 1),
     allowNull: false,
   })
     rating!: string;
