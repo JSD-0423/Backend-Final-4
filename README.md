@@ -8,9 +8,9 @@ An eCommerce API facilitates the development of an online store, allowing users 
 
 ![Database Schema](./docs/schema.png)
 
-## 🌐 Deployed API
+## 🌐 API url
 
-[API](https://ecommerce-api-ex6g.onrender.com/test)
+[API](https://stormy-blue-rattlesnake.cyclic.app/products)
 
 ## 📎 API Documentation
 
