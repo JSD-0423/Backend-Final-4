@@ -1,5 +1,5 @@
 import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
-import { Review } from './Review';
+import Review from './Review';
 
 
 @Table({
@@ -7,7 +7,7 @@ import { Review } from './Review';
   tableName: 'products',
 })
 
-export class Product extends Model {
+export default class Product extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
