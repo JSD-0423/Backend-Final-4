@@ -39,6 +39,12 @@ export default class Product extends Model {
   })
     discount!: number;
 
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+    image!: string;
+
   @HasMany(() => Review)
     reviews!: Review[];
 }
