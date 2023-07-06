@@ -3,6 +3,7 @@ import { connect } from './connection/connect';
 import productsRouter from './routers/products.router';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler.middleware';
+import fileUpload from 'express-fileupload';
 
 const app: Application = express();
 
@@ -10,6 +11,9 @@ const app: Application = express();
 app.use(urlencoded({ extended: false }));
 app.use(json());
 app.use(cors({ origin: '*' }));
+app.use(fileUpload({
+  useTempFiles: true,
+}));
 
 // Database Connection
 connect();
