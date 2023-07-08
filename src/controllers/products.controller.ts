@@ -1,8 +1,9 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { Product, Review } from '../models';
-import { Sequelize } from 'sequelize';
-import { CustomError } from '../middlewares/errors';
+import { Sequelize, ValidationError } from 'sequelize';
+import { CustomError, CustomValidationError } from '../middlewares/errors';
 import httpStatus from 'http-status';
+import cloudinary from '../config/cloudinary.config';
 
 export interface Params {
   id: number
@@ -82,4 +83,25 @@ const getProductReviews: RequestHandler<Params> =async (
   }
 };
 
-export { getProducts, getProduct, getProductReviews };
+const createProduct: RequestHandler = async (req: Request<object, object, Product>, res: Response, next: NextFunction) => {
+  try {
+    const { name, description, discount, color, price } = req.body;
+
+    if(req.files && req.files.img && !Array.isArray(req.files.img)) {
+      const imgTempPath = req.files.img.tempFilePath;
+      const result = await cloudinary.uploader.upload(imgTempPath);
+
+      const image = result.url;
+      const product = await Product.create({ name, description, discount, color, price, image});
+
+      res.status(httpStatus.CREATED).json(product);
+    }
+  } catch(e) {
+    console.log(e);
+    if (e instanceof ValidationError) {
+      return next(new CustomValidationError('Invalidated Fields', e.errors));
+    }
+    next(e);
+  }
+};
+export { getProducts, getProduct, getProductReviews, createProduct };
