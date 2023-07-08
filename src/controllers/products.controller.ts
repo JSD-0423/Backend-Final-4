@@ -4,6 +4,7 @@ import { Sequelize, ValidationError } from 'sequelize';
 import { CustomError, CustomValidationError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
+import shell from 'shelljs';
 
 export interface Params {
   id: number
@@ -88,11 +89,14 @@ const createProduct: RequestHandler = async (req: Request<object, object, Produc
     const { name, description, discount, color, price } = req.body;
 
     if(req.files && req.files.img && !Array.isArray(req.files.img)) {
+      console.log(req.files.img);
       const imgTempPath = req.files.img.tempFilePath;
       const result = await cloudinary.uploader.upload(imgTempPath);
 
       const image = result.url;
       const product = await Product.create({ name, description, discount, color, price, image});
+
+      shell.rm(imgTempPath);
 
       res.status(httpStatus.CREATED).json(product);
     }
