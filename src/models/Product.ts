@@ -1,6 +1,7 @@
 import { Table, Model, Column, DataType, HasMany, BelongsTo, ForeignKey } from 'sequelize-typescript';
 import Review from './Review';
 import Category from './Category';
+import Brand from './Brand';
 
 
 @Table({
@@ -52,9 +53,18 @@ export default class Product extends Model {
   })
     category_id!: number;
 
+  @ForeignKey(() => Brand)
+  @Column({
+    type: DataType.INTEGER,
+  })
+    brand_id!: number;
+
   @HasMany(() => Review)
     reviews!: Review[];
 
   @BelongsTo(() => Category)
     category!: Category;
+  
+  @BelongsTo(() => Brand)
+    brand!: Brand;
 }
