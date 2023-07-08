@@ -12,7 +12,7 @@ export default class Review extends Model {
     type: DataType.DOUBLE(3, 1),
     allowNull: false,
   })
-    rating!: string;
+    rating!: number;
 	
   @Column({
     type: DataType.STRING, 
