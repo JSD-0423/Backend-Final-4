@@ -60,4 +60,26 @@ const getProduct: RequestHandler<Params> =async (
   }
 };
 
-export { getProducts, getProduct };
+const getProductReviews: RequestHandler<Params> =async (
+  req: Request<Params>,
+  res: Response<Review[]>,
+  next:NextFunction
+) => {
+  const { id } = req.params;
+
+  try {
+    const product = await Product.findByPk(id, {
+      include: {
+        model: Review,
+      },
+    });
+
+    if(!product) throw new CustomError('Product not found', httpStatus.NOT_FOUND);
+
+    res.json(product.reviews);
+  } catch(e) {
+    next(e);
+  }
+};
+
+export { getProducts, getProduct, getProductReviews };
