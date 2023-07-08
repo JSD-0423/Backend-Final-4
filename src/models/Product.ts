@@ -1,5 +1,6 @@
-import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany, BelongsTo, ForeignKey } from 'sequelize-typescript';
 import Review from './Review';
+import Category from './Category';
 
 
 @Table({
@@ -45,6 +46,15 @@ export default class Product extends Model {
   })
     image!: string;
 
+  @ForeignKey(() => Category)
+  @Column({
+    type: DataType.INTEGER,
+  })
+    category_id!: number;
+
   @HasMany(() => Review)
     reviews!: Review[];
+
+  @BelongsTo(() => Category)
+    category!: Category;
 }
