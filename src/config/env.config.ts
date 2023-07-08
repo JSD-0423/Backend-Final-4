@@ -9,4 +9,7 @@ export default {
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
   dbPassword: process.env.DB_PASSWORD,
+  cloudinaryAPIKey: process.env.CLOUDINARY_API_KEY,
+  cloudinaryAPISecret: process.env.CLOUDINARY_API_SECRET,
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
 };
