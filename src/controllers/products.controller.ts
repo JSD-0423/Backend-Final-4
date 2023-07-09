@@ -49,7 +49,7 @@ const getProduct: RequestHandler<Params> =async (
       },
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
-        include: [[Sequelize.literal('(SELECT AVG(`rating`) FROM `reviews` WHERE `reviews`.`product_id` = `Product`.`id`)'), 'rating'],]
+        include: [[Sequelize.literal('(SELECT COALESCE(AVG(`rating`), 0) FROM `reviews` WHERE `reviews`.`product_id` = `Product`.`id`)'), 'rating'],]
       }
     });
 
