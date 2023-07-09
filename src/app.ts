@@ -13,6 +13,7 @@ app.use(json());
 app.use(cors({ origin: '*' }));
 app.use(fileUpload({
   useTempFiles: true,
+  tempFileDir: '/tmp',
 }));
 
 // Database Connection
