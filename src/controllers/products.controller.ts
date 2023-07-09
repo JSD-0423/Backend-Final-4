@@ -37,7 +37,7 @@ const getProducts: RequestHandler = async (
 const getProduct: RequestHandler<Params> =async (
   req: Request<Params>,
   res: Response<Product>,
-  next:NextFunction
+  next:NextFunction,
 ) => {
   const { id } = req.params;
 
@@ -64,7 +64,7 @@ const getProduct: RequestHandler<Params> =async (
 const getProductReviews: RequestHandler<Params> =async (
   req: Request<Params>,
   res: Response<Review[]>,
-  next:NextFunction
+  next: NextFunction,
 ) => {
   const { id } = req.params;
 
@@ -83,7 +83,11 @@ const getProductReviews: RequestHandler<Params> =async (
   }
 };
 
-const createProduct: RequestHandler = async (req: Request<object, object, Product>, res: Response, next: NextFunction) => {
+const createProduct: RequestHandler = async (
+  req: Request<object, object, Product>,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { name, description, discount, color, price } = req.body;
 
