@@ -1,5 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { Product, Review } from '../models';
+import { Product } from '../models';
 import { Sequelize, ValidationError } from 'sequelize';
 import { CustomError, CustomValidationError } from '../middlewares/errors';
 import httpStatus from 'http-status';
@@ -16,16 +16,7 @@ const getProducts: RequestHandler = async (
   next: NextFunction,
 ) => {
   try {
-    const products = await Product.findAll({
-      include: {
-        model: Review,
-        attributes: [],
-      },
-      attributes: {
-        exclude: ['createdAt', 'updatedAt'],
-        include: [[Sequelize.literal('(SELECT COALESCE(AVG(`rating`), 0) FROM `reviews` WHERE `reviews`.`product_id` = `Product`.`id`)'), 'rating']]
-      }
-    });
+    const products = await Product.findAll();
 
     res.json(products);
   } catch(e) {
@@ -42,42 +33,11 @@ const getProduct: RequestHandler<Params> =async (
   const { id } = req.params;
 
   try {
-    const product = await Product.findByPk(id, {
-      include: {
-        model: Review,
-        attributes: [],
-      },
-      attributes: {
-        exclude: ['createdAt', 'updatedAt'],
-        include: [[Sequelize.literal('(SELECT COALESCE(AVG(`rating`), 0) FROM `reviews` WHERE `reviews`.`product_id` = `Product`.`id`)'), 'rating'],]
-      }
-    });
+    const product = await Product.findByPk(id);
 
     if(!product) throw new CustomError('Product not found', httpStatus.NOT_FOUND);
 
     res.json(product);
-  } catch(e) {
-    next(e);
-  }
-};
-
-const getProductReviews: RequestHandler<Params> =async (
-  req: Request<Params>,
-  res: Response<Review[]>,
-  next: NextFunction,
-) => {
-  const { id } = req.params;
-
-  try {
-    const product = await Product.findByPk(id, {
-      include: {
-        model: Review,
-      },
-    });
-
-    if(!product) throw new CustomError('Product not found', httpStatus.NOT_FOUND);
-
-    res.json(product.reviews);
   } catch(e) {
     next(e);
   }
@@ -109,4 +69,4 @@ const createProduct: RequestHandler = async (
     next(e);
   }
 };
-export { getProducts, getProduct, getProductReviews, createProduct };
+export { getProducts, getProduct, createProduct };
