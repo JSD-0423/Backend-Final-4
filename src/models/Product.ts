@@ -66,5 +66,5 @@ export default class Product extends Model {
     brand!: Brand;
   
   @HasMany(() => ProductImages)
-    images!: ProductImages[];
+    images!:  ProductImages[];
 }
