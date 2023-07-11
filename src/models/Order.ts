@@ -6,7 +6,7 @@ import {
   BelongsTo,
   ForeignKey,
 } from 'sequelize-typescript';
-import User from './User';
+import { Cart, User } from './';
 
 @Table({
   timestamps: true,
@@ -18,7 +18,14 @@ export default class Order extends Model {
     type: DataType.INTEGER,
     allowNull: false,
   })
-    user_id!: string;
+    user_id!: number;
+  
+  @ForeignKey(() => Cart)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+    cart_id!: number;
 
   @Column({
     type: DataType.STRING,
@@ -29,4 +36,7 @@ export default class Order extends Model {
 
   @BelongsTo(() => User)
     user!: User;
+
+  @BelongsTo(() => Cart)
+    cart!: Cart;
 }

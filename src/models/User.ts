@@ -6,6 +6,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import Order from './Order';
+import FavouriteList from './FavouriteList';
 
 @Table({
   timestamps: true,
@@ -37,5 +38,8 @@ export default class User extends Model {
     email!: string;
 	
   @HasMany(() => Order)
-    images!:  Order[];
+    orders!:  Order[];
+  
+  @HasMany(() => FavouriteList)
+    favouriteLists!: FavouriteList[];
 }

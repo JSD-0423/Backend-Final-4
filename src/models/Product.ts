@@ -2,6 +2,7 @@ import { Table, Model, Column, DataType, BelongsTo, ForeignKey, HasMany } from '
 import Category from './Category';
 import Brand from './Brand';
 import ProductImages from './ProductImages';
+import FavouriteList from './FavouriteList';
 
 
 @Table({
@@ -50,12 +51,14 @@ export default class Product extends Model {
   @ForeignKey(() => Category)
   @Column({
     type: DataType.INTEGER,
+    allowNull: false,
   })
     category_id!: number;
 
   @ForeignKey(() => Brand)
   @Column({
     type: DataType.INTEGER,
+    allowNull: false,
   })
     brand_id!: number;
 
@@ -67,4 +70,7 @@ export default class Product extends Model {
   
   @HasMany(() => ProductImages)
     images!:  ProductImages[];
+  
+  @HasMany(() => FavouriteList)
+    favouriteLists!: FavouriteList[];
 }
