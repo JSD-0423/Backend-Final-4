@@ -1,6 +1,7 @@
-import { Table, Model, Column, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
 import Category from './Category';
 import Brand from './Brand';
+import ProductImages from './ProductImages';
 
 
 @Table({
@@ -63,4 +64,7 @@ export default class Product extends Model {
   
   @BelongsTo(() => Brand)
     brand!: Brand;
+  
+  @HasMany(() => ProductImages)
+    images!: ProductImages[];
 }

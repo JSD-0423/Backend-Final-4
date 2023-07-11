@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import envConfig from '../config/env.config';
-import { Product, Category, Brand } from '../models';
+import { Product, Category, Brand, ProductImages } from '../models';
 
 const connection = new Sequelize({
   dialect: 'mysql',
@@ -10,7 +10,7 @@ const connection = new Sequelize({
   password: envConfig.dbPassword,
   port: Number(envConfig.dbPort) || 3306,
   logging: false,
-  models: [Product, Category, Brand],
+  models: [Product, Category, Brand, ProductImages],
 });
 
 export async function connect() {
