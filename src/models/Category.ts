@@ -1,31 +1,29 @@
 import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
 import Product from './Product';
 
-
 @Table({
   timestamps: true,
-  tableName: 'categories',
+  tableName: 'categories'
 })
-
 export default class Category extends Model {
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    name!: string;
+  name!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    description!: string;
+  description!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    image!: string;
+  image!: string;
 
   @HasMany(() => Product)
-    products!: Product[];
+  products!: Product[];
 }

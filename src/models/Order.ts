@@ -5,38 +5,42 @@ import {
   DataType,
   BelongsTo,
   ForeignKey,
+  HasMany
 } from 'sequelize-typescript';
-import { Cart, User } from './';
+import { Cart, User, OrderItem } from './';
 
 @Table({
   timestamps: true,
-  tableName: 'orders',
+  tableName: 'orders'
 })
 export default class Order extends Model {
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: false
   })
-    user_id!: number;
-  
+  user_id!: number;
+
   @ForeignKey(() => Cart)
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: false
   })
-    cart_id!: number;
+  cart_id!: number;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    defaultValue: 'Pending',
+    defaultValue: 'Pending'
   })
-    status!: string;
+  status!: string;
 
   @BelongsTo(() => User)
-    user!: User;
+  user!: User;
 
   @BelongsTo(() => Cart)
-    cart!: Cart;
+  cart!: Cart;
+
+  @HasMany(() => OrderItem)
+  orderItems!: OrderItem[];
 }

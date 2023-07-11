@@ -1,29 +1,24 @@
-import {
-  Table,
-  Model,
-  Column,
-  DataType,
-  HasMany,
-} from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
 import Order from './Order';
 import FavouriteList from './FavouriteList';
+import Address from './Address';
 
 @Table({
   timestamps: true,
-  tableName: 'users',
+  tableName: 'users'
 })
 export default class User extends Model {
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    name!: string;
+  name!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    password!: string;
+  password!: string;
 
   @Column({
     type: DataType.STRING,
@@ -31,15 +26,18 @@ export default class User extends Model {
     unique: true,
     validate: {
       isEmail: {
-        msg: 'Invalid email address',
-      },
-    },
+        msg: 'Invalid email address'
+      }
+    }
   })
-    email!: string;
-	
+  email!: string;
+
   @HasMany(() => Order)
-    orders!:  Order[];
-  
+  orders!: Order[];
+
   @HasMany(() => FavouriteList)
-    favouriteLists!: FavouriteList[];
+  favouriteLists!: FavouriteList[];
+
+  @HasMany(() => Address)
+  addresses!: Address[];
 }

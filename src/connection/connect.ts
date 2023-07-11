@@ -1,14 +1,16 @@
 import { Sequelize } from 'sequelize-typescript';
 import envConfig from '../config/env.config';
-import { 
+import {
   Product,
-  Category, 
+  Category,
   Brand,
   ProductImages,
   Order,
   User,
   FavouriteList,
-  Cart
+  Cart,
+  OrderItem,
+  Address
 } from '../models';
 
 const connection = new Sequelize({
@@ -19,7 +21,18 @@ const connection = new Sequelize({
   password: envConfig.dbPassword,
   port: Number(envConfig.dbPort) || 3306,
   logging: false,
-  models: [Product, Category, Brand, ProductImages, Order, User, FavouriteList, Cart],
+  models: [
+    Product,
+    Category,
+    Brand,
+    ProductImages,
+    Order,
+    User,
+    FavouriteList,
+    Cart,
+    OrderItem,
+    Address
+  ]
 });
 
 export async function connect() {

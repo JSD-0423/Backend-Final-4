@@ -6,52 +6,52 @@ import {
   BelongsTo,
   HasMany,
   HasOne,
-  ForeignKey,
+  ForeignKey
 } from 'sequelize-typescript';
 import { User, Order, Product } from './';
 
 @Table({
   timestamps: true,
-  tableName: 'carts',
+  tableName: 'carts'
 })
 export default class Cart extends Model {
   @Column({
     type: DataType.DOUBLE,
-    allowNull: false,
+    allowNull: false
   })
-    total!: number;
+  total!: number;
 
   @Column({
     type: DataType.DOUBLE,
     allowNull: true,
-    defaultValue: 0,
+    defaultValue: 0
   })
-    discount!: number;
+  discount!: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
-    defaultValue: 0,
+    defaultValue: 0
   })
-    tax!: number;
+  tax!: number;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    defaultValue: 'Pending',
+    defaultValue: 'Pending'
   })
-    status!: boolean;
+  status!: boolean;
 
   @BelongsTo(() => User)
-    user!: User;
+  user!: User;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: false
   })
-    user_id!: number;
+  user_id!: number;
 
   @HasOne(() => Order)
-    order!: Order;
+  order!: Order;
 }
