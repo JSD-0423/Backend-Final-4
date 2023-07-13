@@ -85,7 +85,7 @@ const getProductReviews: RequestHandler<Params> = async (
   res.json(product.reviews);
 };
 
-const createProduct: RequestHandler = async (
+const createProduct: RequestHandler<object, object, Product> = async (
   req: Request<object, object, Product>,
   res: Response,
   next: NextFunction
