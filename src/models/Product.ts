@@ -7,7 +7,7 @@ import {
   ForeignKey,
   HasMany
 } from 'sequelize-typescript';
-import { Category, Brand, ProductImages, FavouriteList, OrderItem } from './';
+import { Category, Brand, ProductImages, FavouriteList, CartItem } from './';
 
 @Table({
   timestamps: true,
@@ -77,6 +77,6 @@ export default class Product extends Model {
   @HasMany(() => FavouriteList)
   favouriteLists!: FavouriteList[];
 
-  @HasMany(() => OrderItem)
-  orderItems!: OrderItem[];
+  @HasMany(() => CartItem)
+  cartItems!: CartItem[];
 }

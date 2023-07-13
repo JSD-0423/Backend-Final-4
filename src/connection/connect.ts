@@ -9,7 +9,7 @@ import {
   User,
   FavouriteList,
   Cart,
-  OrderItem,
+  CartItem,
   Address
 } from '../models';
 
@@ -30,7 +30,7 @@ const connection = new Sequelize({
     User,
     FavouriteList,
     Cart,
-    OrderItem,
+    CartItem,
     Address
   ]
 });

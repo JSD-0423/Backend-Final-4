@@ -6,19 +6,19 @@ import {
   BelongsTo,
   ForeignKey
 } from 'sequelize-typescript';
-import { Order, Product } from './';
+import { Cart, Product } from '.';
 
 @Table({
   timestamps: false,
-  tableName: 'order_items'
+  tableName: 'cart_items'
 })
-export default class OrderItem extends Model {
-  @ForeignKey(() => Order)
+export default class CartItem extends Model {
+  @ForeignKey(() => Cart)
   @Column({
     type: DataType.INTEGER,
     allowNull: false
   })
-  order_id!: number;
+  cart_id!: number;
 
   @ForeignKey(() => Product)
   @Column({
@@ -27,8 +27,8 @@ export default class OrderItem extends Model {
   })
   product_id!: number;
 
-  @BelongsTo(() => Order)
-  order!: Order;
+  @BelongsTo(() => Cart)
+  cart!: Cart;
 
   @BelongsTo(() => Product)
   product!: Product;

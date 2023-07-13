@@ -7,7 +7,7 @@ import {
   ForeignKey,
   HasMany
 } from 'sequelize-typescript';
-import { Cart, User, OrderItem } from './';
+import { Cart, User } from './';
 
 @Table({
   timestamps: true,
@@ -40,7 +40,4 @@ export default class Order extends Model {
 
   @BelongsTo(() => Cart)
   cart!: Cart;
-
-  @HasMany(() => OrderItem)
-  orderItems!: OrderItem[];
 }
