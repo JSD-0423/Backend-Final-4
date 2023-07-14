@@ -1,4 +1,5 @@
-import { ValidationError, ValidationErrorItem } from 'sequelize';
+import httpStatus from 'http-status';
+import Joi from 'joi';
 
 export class CustomError extends Error {
   constructor(message: string, public statusCode: number) {
@@ -6,11 +7,11 @@ export class CustomError extends Error {
   }
 }
 
-export class CustomValidationError extends ValidationError {
+export class CustomValidationError extends Error {
   statusCode: number;
 
-  constructor(message: string, errors: ValidationErrorItem[]) {
-    super(message, errors);
-    this.statusCode = 422;
+  constructor(message: string, public errors: Joi.ValidationErrorItem[]) {
+    super(message);
+    this.statusCode = httpStatus.UNPROCESSABLE_ENTITY;
   }
 }
