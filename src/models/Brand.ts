@@ -16,6 +16,12 @@ export default class Brand extends Model {
     type: DataType.STRING,
     allowNull: false
   })
+  description!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false
+  })
   image!: string;
 
   @HasMany(() => Product)
