@@ -1,42 +1,41 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { Category } from '../models';
+import { Brand } from '../models';
 import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
-import validateCategory from '../validators/category.validator';
+import { validateBrand } from '../validators';
 import { Params } from './products.controller';
 
-const getCategories: RequestHandler = async (
+const getBrands: RequestHandler = async (
   _req: Request,
-  res: Response<Category[]>,
+  res: Response<Brand[]>,
   next: NextFunction
 ) => {
-  const categories = await Category.findAll();
+  const brands = await Brand.findAll();
 
-  res.json(categories);
+  res.json(brands);
 };
 
-const getCategory: RequestHandler<Params> = async (
+const getBrand: RequestHandler<Params> = async (
   req: Request<Params>,
-  res: Response<Category>,
+  res: Response<Brand>,
   next: NextFunction
 ) => {
   const { id } = req.params;
 
-  const category = await Category.findByPk(id);
+  const brand = await Brand.findByPk(id);
 
-  if (!category)
-    throw new CustomError('Category not found', httpStatus.NOT_FOUND);
+  if (!brand) throw new CustomError('Brand not found', httpStatus.NOT_FOUND);
 
-  res.json(category);
+  res.json(brand);
 };
 
-const createCategory: RequestHandler<Params, object, Category> = async (
-  req: Request<Params, object, Category>,
+const createBrand: RequestHandler<Params, object, Brand> = async (
+  req: Request<Params, object, Brand>,
   res: Response,
   next: NextFunction
 ) => {
-  const body = validateCategory(req.body);
+  const body = validateBrand(req.body);
 
   const { name, description } = body;
 
@@ -46,13 +45,13 @@ const createCategory: RequestHandler<Params, object, Category> = async (
 
     const image = result.url;
 
-    const category = await Category.create({
+    const brand = await Brand.create({
       name,
       description,
       image
     });
 
-    return res.status(httpStatus.CREATED).json(category);
+    return res.status(httpStatus.CREATED).json(brand);
   }
 
   res
@@ -60,4 +59,4 @@ const createCategory: RequestHandler<Params, object, Category> = async (
     .json({ msg: 'Please upload an image' });
 };
 
-export { getCategories, getCategory, createCategory };
+export { getBrands, getBrand, createBrand };

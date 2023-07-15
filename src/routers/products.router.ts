@@ -8,8 +8,7 @@ import { use } from '../helpers';
 
 const productsRouter: Router = Router();
 
-productsRouter.get('/', use(getProducts));
+productsRouter.route('/').get(use(getProducts)).post(use(createProduct));
 productsRouter.get('/:id', use(getProduct));
-productsRouter.post('/', use(createProduct));
 
 export default productsRouter;
