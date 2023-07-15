@@ -1,70 +1,82 @@
-import { Table, Model, Column, DataType, HasMany, BelongsTo, ForeignKey } from 'sequelize-typescript';
-import Review from './Review';
-import Category from './Category';
-import Brand from './Brand';
-
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  BelongsTo,
+  ForeignKey,
+  HasMany
+} from 'sequelize-typescript';
+import { Category, Brand, ProductImages, FavouriteList, CartItem } from './';
 
 @Table({
   timestamps: true,
-  tableName: 'products',
+  tableName: 'products'
 })
-
 export default class Product extends Model {
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    name!: string;
+  name!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    description!: string;
+  description!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
-    color!: string;
-  
+  color!: string;
+
   @Column({
     type: DataType.DOUBLE(5, 2),
-    allowNull: false,
+    allowNull: false
   })
-    price!: number;
+  price!: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
-    defaultValue: 0,
+    defaultValue: 0
   })
-    discount!: number;
+  discount!: number;
 
   @Column({
-    type: DataType.STRING,
-    allowNull: false,
+    type: DataType.DOUBLE(3, 1),
+    allowNull: false
   })
-    image!: string;
+  rating!: string;
 
   @ForeignKey(() => Category)
   @Column({
     type: DataType.INTEGER,
+    allowNull: false
   })
-    category_id!: number;
+  category_id!: number;
 
   @ForeignKey(() => Brand)
   @Column({
     type: DataType.INTEGER,
+    allowNull: false
   })
-    brand_id!: number;
-
-  @HasMany(() => Review)
-    reviews!: Review[];
+  brand_id!: number;
 
   @BelongsTo(() => Category)
-    category!: Category;
-  
+  category!: Category;
+
   @BelongsTo(() => Brand)
-    brand!: Brand;
+  brand!: Brand;
+
+  @HasMany(() => ProductImages)
+  images!: ProductImages[];
+
+  @HasMany(() => FavouriteList)
+  favouriteLists!: FavouriteList[];
+
+  @HasMany(() => CartItem)
+  cartItems!: CartItem[];
 }

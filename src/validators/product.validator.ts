@@ -12,18 +12,19 @@ export interface Product {
 
 const ProductSchema = Joi.object({
   name: Joi.string().alphanum().required(),
-  descritpion: Joi.string().required(),
+  description: Joi.string().required(),
   color: Joi.string().required(),
   price: Joi.number().required(),
   discount: Joi.number().optional().default(0),
   rating: Joi.number().default(0)
 });
 
-const validateProduct = (body: Product) => {
-  const { error } = ProductSchema.validate(body);
+const validateProduct = (body: Product): Product => {
+  const { error, value } = ProductSchema.validate(body);
   if (error) {
     throw new CustomValidationError('Invalidated Fields', error.details);
   }
+  return value;
 };
 
 export default validateProduct;

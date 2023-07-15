@@ -1,7 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { Product, Review } from '../models';
-import { Sequelize, ValidationError } from 'sequelize';
-import { CustomError, CustomValidationError } from '../middlewares/errors';
+import { Product } from '../models';
+import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
 
@@ -14,23 +13,7 @@ const getProducts: RequestHandler = async (
   res: Response<Product[]>,
   next: NextFunction
 ) => {
-  const products = await Product.findAll({
-    include: {
-      model: Review,
-      attributes: []
-    },
-    attributes: {
-      exclude: ['createdAt', 'updatedAt'],
-      include: [
-        [
-          Sequelize.literal(
-            '(SELECT COALESCE(AVG(`rating`), 0) FROM `reviews` WHERE `reviews`.`product_id` = `Product`.`id`)'
-          ),
-          'rating'
-        ]
-      ]
-    }
-  });
+  const products = await Product.findAll();
 
   res.json(products);
 };
@@ -42,23 +25,7 @@ const getProduct: RequestHandler<Params> = async (
 ) => {
   const { id } = req.params;
 
-  const product = await Product.findByPk(id, {
-    include: {
-      model: Review,
-      attributes: []
-    },
-    attributes: {
-      exclude: ['createdAt', 'updatedAt'],
-      include: [
-        [
-          Sequelize.literal(
-            '(SELECT COALESCE(AVG(`rating`), 0) FROM `reviews` WHERE `reviews`.`product_id` = `Product`.`id`)'
-          ),
-          'rating'
-        ]
-      ]
-    }
-  });
+  const product = await Product.findByPk(id);
 
   if (!product)
     throw new CustomError('Product not found', httpStatus.NOT_FOUND);
@@ -66,48 +33,21 @@ const getProduct: RequestHandler<Params> = async (
   res.json(product);
 };
 
-const getProductReviews: RequestHandler<Params> = async (
-  req: Request<Params>,
-  res: Response<Review[]>,
-  next: NextFunction
-) => {
-  const { id } = req.params;
-
-  const product = await Product.findByPk(id, {
-    include: {
-      model: Review
-    }
-  });
-
-  if (!product)
-    throw new CustomError('Product not found', httpStatus.NOT_FOUND);
-
-  res.json(product.reviews);
-};
-
-const createProduct: RequestHandler<object, object, Product> = async (
+const createProduct: RequestHandler = async (
   req: Request<object, object, Product>,
   res: Response,
   next: NextFunction
 ) => {
   const { name, description, discount, color, price } = req.body;
 
-  if (req.files && req.files.img && !Array.isArray(req.files.img)) {
-    console.log(req.files.img);
-    const imgTempPath = req.files.img.tempFilePath;
-    const result = await cloudinary.uploader.upload(imgTempPath);
+  const product = await Product.create({
+    name,
+    description,
+    discount,
+    color,
+    price
+  });
 
-    const image = result.url;
-    const product = await Product.create({
-      name,
-      description,
-      discount,
-      color,
-      price,
-      image
-    });
-
-    res.status(httpStatus.CREATED).json(product);
-  }
+  res.status(httpStatus.CREATED).json(product);
 };
-export { getProducts, getProduct, getProductReviews, createProduct };
+export { getProducts, getProduct, createProduct };

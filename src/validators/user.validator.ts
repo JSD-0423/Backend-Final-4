@@ -13,11 +13,12 @@ const UserSchema = Joi.object({
   email: Joi.string().email().required()
 });
 
-const validateUser = (body: User) => {
-  const { error } = UserSchema.validate(body);
+const validateUser = (body: User): User => {
+  const { error, value } = UserSchema.validate(body);
   if (error) {
     throw new CustomValidationError('Invalidated Fields', error.details);
   }
+  return value;
 };
 
 export default validateUser;
