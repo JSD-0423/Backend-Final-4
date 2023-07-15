@@ -6,7 +6,7 @@ export type Brand = Category;
 
 const BrandSchema = Joi.object({
   name: Joi.string().alphanum().required(),
-  descritpion: Joi.string().required()
+  description: Joi.string().required()
 });
 
 const validateBrand = (body: Brand) => {

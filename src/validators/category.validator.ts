@@ -8,7 +8,7 @@ export interface Category {
 
 const CategorySchema = Joi.object({
   name: Joi.string().alphanum().required(),
-  descritpion: Joi.string().required()
+  description: Joi.string().required()
 });
 
 const validateCategory = (body: Category) => {
