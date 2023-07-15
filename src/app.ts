@@ -6,7 +6,7 @@ import express, {
   urlencoded
 } from 'express';
 import { connect } from './connection/connect';
-import { productsRouter, categoriesRouter } from './routers';
+import { productsRouter, categoriesRouter, brandsRouter } from './routers';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 import fileUpload from 'express-fileupload';
@@ -37,6 +37,7 @@ app.get('/', (req: Request, res: Response) => {
 // Routes
 app.use('/products', productsRouter);
 app.use('/categories', categoriesRouter);
+app.use('/brands', brandsRouter);
 
 // Post Middlewares
 app.use(errorHandler);
