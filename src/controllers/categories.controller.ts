@@ -8,8 +8,7 @@ import { Params } from './products.controller';
 
 const getCategories: RequestHandler = async (
   _req: Request,
-  res: Response<Category[]>,
-  next: NextFunction
+  res: Response<Category[]>
 ) => {
   const categories = await Category.findAll();
 
@@ -18,8 +17,7 @@ const getCategories: RequestHandler = async (
 
 const getCategory: RequestHandler<Params> = async (
   req: Request<Params>,
-  res: Response<Category>,
-  next: NextFunction
+  res: Response<Category>
 ) => {
   const { id } = req.params;
 
@@ -33,8 +31,7 @@ const getCategory: RequestHandler<Params> = async (
 
 const createCategory: RequestHandler<Params, object, Category> = async (
   req: Request<Params, object, Category>,
-  res: Response,
-  next: NextFunction
+  res: Response
 ) => {
   const body = validateCategory(req.body);
 

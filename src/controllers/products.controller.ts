@@ -10,8 +10,7 @@ export interface Params {
 
 const getProducts: RequestHandler = async (
   _req: Request,
-  res: Response<Product[]>,
-  next: NextFunction
+  res: Response<Product[]>
 ) => {
   const products = await Product.findAll();
 
@@ -20,8 +19,7 @@ const getProducts: RequestHandler = async (
 
 const getProduct: RequestHandler<Params> = async (
   req: Request<Params>,
-  res: Response<Product>,
-  next: NextFunction
+  res: Response<Product>
 ) => {
   const { id } = req.params;
 
@@ -35,8 +33,7 @@ const getProduct: RequestHandler<Params> = async (
 
 const createProduct: RequestHandler = async (
   req: Request<object, object, Product>,
-  res: Response,
-  next: NextFunction
+  res: Response
 ) => {
   const { name, description, discount, color, price } = req.body;
 

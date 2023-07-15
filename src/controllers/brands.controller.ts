@@ -8,8 +8,7 @@ import { Params } from './products.controller';
 
 const getBrands: RequestHandler = async (
   _req: Request,
-  res: Response<Brand[]>,
-  next: NextFunction
+  res: Response<Brand[]>
 ) => {
   const brands = await Brand.findAll();
 
@@ -18,8 +17,7 @@ const getBrands: RequestHandler = async (
 
 const getBrand: RequestHandler<Params> = async (
   req: Request<Params>,
-  res: Response<Brand>,
-  next: NextFunction
+  res: Response<Brand>
 ) => {
   const { id } = req.params;
 
@@ -32,8 +30,7 @@ const getBrand: RequestHandler<Params> = async (
 
 const createBrand: RequestHandler<Params, object, Brand> = async (
   req: Request<Params, object, Brand>,
-  res: Response,
-  next: NextFunction
+  res: Response
 ) => {
   const body = validateBrand(req.body);
 
