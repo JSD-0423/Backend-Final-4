@@ -8,6 +8,8 @@ export interface Product {
   price: number;
   discount: number;
   rating: number;
+  category_id: number;
+  brand_id: number;
 }
 
 const ProductSchema = Joi.object({
@@ -16,7 +18,9 @@ const ProductSchema = Joi.object({
   color: Joi.string().required(),
   price: Joi.number().required(),
   discount: Joi.number().optional().default(0),
-  rating: Joi.number().default(0)
+  rating: Joi.number().default(0),
+  category_id: Joi.number().required(),
+  brand_id: Joi.number().required()
 });
 
 const validateProduct = (body: Product): Product => {

@@ -74,6 +74,16 @@ export default class Product extends Model {
   @HasMany(() => ProductImages)
   images!: ProductImages[];
 
+  public async addImage(imageUrl: string): Promise<ProductImages> {
+    const image = new ProductImages({ image: imageUrl });
+
+    image.product_id = this.id;
+    await image.save();
+    this.images.push(image);
+
+    return image;
+  }
+
   @HasMany(() => FavouriteList)
   favouriteLists!: FavouriteList[];
 
