@@ -8,8 +8,7 @@ import { use } from '../helpers';
 
 const brandsRouter: Router = Router();
 
-brandsRouter.get('/', use(getCategories));
+brandsRouter.route('/').get(use(getCategories)).post(use(createCategory));
 brandsRouter.get('/:id', use(getCategory));
-brandsRouter.post('/', use(createCategory));
 
 export default brandsRouter;
