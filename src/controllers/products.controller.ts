@@ -91,4 +91,4 @@ const getPopularInTheCommunity: RequestHandler<
   return result;
 };
 
-export { getProducts, getProduct, createProduct };
+export { getProducts, getProduct, createProduct, getPopularInTheCommunity };
