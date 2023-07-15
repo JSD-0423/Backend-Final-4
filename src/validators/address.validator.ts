@@ -19,11 +19,12 @@ const AddressSchema = Joi.object({
   pinCode: Joi.string().required()
 });
 
-const validateAddress = (body: Address) => {
-  const { error } = AddressSchema.validate(body);
+const validateAddress = (body: Address): Address => {
+  const { error, value } = AddressSchema.validate(body);
   if (error) {
     throw new CustomValidationError('Invalidated Fields', error.details);
   }
+  return value;
 };
 
 export default validateAddress;

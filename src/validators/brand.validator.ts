@@ -9,11 +9,12 @@ const BrandSchema = Joi.object({
   description: Joi.string().required()
 });
 
-const validateBrand = (body: Brand) => {
-  const { error } = BrandSchema.validate(body);
+const validateBrand = (body: Brand): Brand => {
+  const { error, value } = BrandSchema.validate(body);
   if (error) {
     throw new CustomValidationError('Invalidated Fields', error.details);
   }
+  return value;
 };
 
 export default validateBrand;

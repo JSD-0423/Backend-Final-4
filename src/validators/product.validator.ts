@@ -19,7 +19,7 @@ const ProductSchema = Joi.object({
   rating: Joi.number().default(0)
 });
 
-const validateProduct = (body: Product) => {
+const validateProduct = (body: Product): Product => {
   const { error, value } = ProductSchema.validate(body);
   if (error) {
     throw new CustomValidationError('Invalidated Fields', error.details);
