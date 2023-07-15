@@ -1,8 +1,10 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { Product } from '../models';
+import { Brand, Category, Product, ProductImages } from '../models';
 import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
+import { validateProduct } from '../validators';
+import { Product as ProductDTO } from '../validators/product.validator';
 
 export interface Params {
   id: number;
@@ -32,19 +34,52 @@ const getProduct: RequestHandler<Params> = async (
 };
 
 const createProduct: RequestHandler = async (
-  req: Request<object, object, Product>,
+  req: Request<object, object, ProductDTO>,
   res: Response
 ) => {
-  const { name, description, discount, color, price } = req.body;
+  const body = validateProduct(req.body);
+
+  const category = await Category.findByPk(body.category_id);
+  const brand = await Brand.findByPk(body.brand_id);
+
+  if (!category)
+    throw new CustomError('Category not found', httpStatus.NOT_FOUND);
+  if (!brand) throw new CustomError('Brand not found', httpStatus.NOT_FOUND);
 
   const product = await Product.create({
-    name,
-    description,
-    discount,
-    color,
-    price
+    ...body
   });
 
   res.status(httpStatus.CREATED).json(product);
 };
-export { getProducts, getProduct, createProduct };
+
+const uploadProductImage: RequestHandler<Params> = async (
+  req: Request<Params>,
+  res: Response
+) => {
+  const { id } = req.params;
+  if (req.files && req.files.image && !Array.isArray(req.files.image)) {
+    const imgTempPath = req.files.image.tempFilePath;
+    const result = await cloudinary.uploader.upload(imgTempPath);
+
+    const image = result.url;
+    const product = await Product.findByPk(id, {
+      include: { model: ProductImages }
+    });
+
+    if (!product)
+      throw new CustomError('Product not found', httpStatus.NOT_FOUND);
+
+    await product.addImage(image);
+
+    return res
+      .status(httpStatus.CREATED)
+      .json({ msg: 'Uploaded successfully' });
+  }
+
+  res
+    .status(httpStatus.UNPROCESSABLE_ENTITY)
+    .json({ msg: 'Please upload an image' });
+};
+
+export { getProducts, getProduct, createProduct, uploadProductImage };
