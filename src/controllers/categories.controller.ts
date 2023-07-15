@@ -26,7 +26,7 @@ const getCategory: RequestHandler<Params> = async (
   const category = await Category.findByPk(id);
 
   if (!category)
-    throw new CustomError('Product not found', httpStatus.NOT_FOUND);
+    throw new CustomError('Category not found', httpStatus.NOT_FOUND);
 
   res.json(category);
 };
