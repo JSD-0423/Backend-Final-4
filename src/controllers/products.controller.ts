@@ -4,7 +4,6 @@ import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
 import { Op } from 'sequelize';
-import { paginate } from '../helpers/pagination';
 import { validateProduct } from '../validators';
 import { Product as ProductDTO } from '../validators/product.validator';
 
@@ -64,8 +63,7 @@ const getPopularInTheCommunity: RequestHandler<
   { page: number; perPage: number }
 > = async (
   req: Request<object, object, object, { page: number; perPage: number }>,
-  res: Response,
-  next: NextFunction
+  res: Response
 ) => {
   const page = req.query.page ?? 1;
   const perPage = req.query.perPage ?? 1;
@@ -83,14 +81,7 @@ const getPopularInTheCommunity: RequestHandler<
     distinct: true
   });
 
-  const result = paginate({
-    data: rows,
-    count,
-    page,
-    perPage
-  });
-
-  res.json(result);
+  res.json({ count, rows });
 };
 
 const uploadProductImage: RequestHandler<Params> = async (
