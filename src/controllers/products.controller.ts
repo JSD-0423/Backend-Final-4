@@ -60,10 +60,10 @@ const createProduct: RequestHandler = async (
 const getPopularInTheCommunity: RequestHandler<
   object,
   object,
-  Product[],
+  object,
   { page: number; perPage: number }
 > = async (
-  req: Request<object, object, Product[], { page: number; perPage: number }>,
+  req: Request<object, object, object, { page: number; perPage: number }>,
   res: Response,
   next: NextFunction
 ) => {
@@ -90,7 +90,7 @@ const getPopularInTheCommunity: RequestHandler<
     perPage
   });
 
-  return result;
+  res.json(result);
 };
 
 const uploadProductImage: RequestHandler<Params> = async (
