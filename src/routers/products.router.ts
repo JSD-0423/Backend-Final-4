@@ -12,8 +12,8 @@ const productsRouter: Router = Router();
 
 productsRouter.get('/', use(getProducts));
 productsRouter.post('/', use(createProduct));
-productsRouter.get('/:id', use(getProduct));
 productsRouter.put('/:id', use(uploadProductImage));
 productsRouter.get('/popular', use(getPopularInTheCommunity));
+productsRouter.get('/:id', use(getProduct));
 
 export default productsRouter;
