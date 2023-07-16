@@ -93,7 +93,6 @@ const getPopularInTheCommunity: RequestHandler<
   return result;
 };
 
-
 const uploadProductImage: RequestHandler<Params> = async (
   req: Request<Params>,
   res: Response
@@ -123,4 +122,10 @@ const uploadProductImage: RequestHandler<Params> = async (
     .json({ msg: 'Please upload an image' });
 };
 
-export { getProducts, getProduct, createProduct, getPopularInTheCommunity, uploadProductImage };
+export {
+  getProducts,
+  getProduct,
+  createProduct,
+  getPopularInTheCommunity,
+  uploadProductImage
+};
