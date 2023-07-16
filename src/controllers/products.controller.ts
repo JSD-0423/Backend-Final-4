@@ -3,6 +3,8 @@ import { Brand, Category, Product, ProductImages } from '../models';
 import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
+import { Op } from 'sequelize';
+import { paginate } from '../helpers/pagination';
 import { validateProduct } from '../validators';
 import { Product as ProductDTO } from '../validators/product.validator';
 
@@ -14,7 +16,7 @@ const getProducts: RequestHandler = async (
   _req: Request,
   res: Response<Product[]>
 ) => {
-  const products = await Product.findAll();
+  const products = await Product.findAll({ include: { model: ProductImages } });
 
   res.json(products);
 };
@@ -25,7 +27,9 @@ const getProduct: RequestHandler<Params> = async (
 ) => {
   const { id } = req.params;
 
-  const product = await Product.findByPk(id);
+  const product = await Product.findByPk(id, {
+    include: { model: ProductImages }
+  });
 
   if (!product)
     throw new CustomError('Product not found', httpStatus.NOT_FOUND);
@@ -51,6 +55,42 @@ const createProduct: RequestHandler = async (
   });
 
   res.status(httpStatus.CREATED).json(product);
+};
+
+const getPopularInTheCommunity: RequestHandler<
+  object,
+  object,
+  Product[],
+  { page: number; perPage: number }
+> = async (
+  req: Request<object, object, Product[], { page: number; perPage: number }>,
+  res: Response,
+  next: NextFunction
+) => {
+  const page = req.query.page ?? 1;
+  const perPage = req.query.perPage ?? 1;
+  const { count, rows } = await Product.findAndCountAll({
+    include: {
+      model: ProductImages
+    },
+    where: {
+      rating: {
+        [Op.gte]: 4.5
+      }
+    },
+    offset: (page - 1) * page,
+    limit: perPage,
+    distinct: true
+  });
+
+  const result = paginate({
+    data: rows,
+    count,
+    page,
+    perPage
+  });
+
+  return result;
 };
 
 const uploadProductImage: RequestHandler<Params> = async (
@@ -82,4 +122,10 @@ const uploadProductImage: RequestHandler<Params> = async (
     .json({ msg: 'Please upload an image' });
 };
 
-export { getProducts, getProduct, createProduct, uploadProductImage };
+export {
+  getProducts,
+  getProduct,
+  createProduct,
+  getPopularInTheCommunity,
+  uploadProductImage
+};
