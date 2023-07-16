@@ -11,6 +11,11 @@ export interface Params {
   id: number;
 }
 
+export interface PaginationQuery {
+  page: number;
+  perPage: number;
+}
+
 const getProducts: RequestHandler = async (
   _req: Request,
   res: Response<Product[]>
@@ -60,9 +65,9 @@ const getPopularInTheCommunity: RequestHandler<
   object,
   object,
   object,
-  { page: number; perPage: number }
+  PaginationQuery
 > = async (
-  req: Request<object, object, object, { page: number; perPage: number }>,
+  req: Request<object, object, object, PaginationQuery>,
   res: Response
 ) => {
   const page = req.query.page ?? 1;
