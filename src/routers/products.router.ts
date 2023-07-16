@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Response, Router } from 'express';
 import {
   getProduct,
   getProducts,
@@ -7,12 +7,14 @@ import {
   uploadProductImage
 } from '../controllers/products.controller';
 import { use } from '../helpers';
+import { paginateMiddleware } from '../middlewares/paginate.middleware';
 
 const productsRouter: Router = Router();
 
 productsRouter.get('/', use(getProducts));
 productsRouter.post('/', use(createProduct));
 productsRouter.put('/:id', use(uploadProductImage));
+productsRouter.use('/popular', paginateMiddleware);
 productsRouter.get('/popular', use(getPopularInTheCommunity));
 productsRouter.get('/:id', use(getProduct));
 
