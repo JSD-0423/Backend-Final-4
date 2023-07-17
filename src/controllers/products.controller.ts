@@ -6,15 +6,7 @@ import cloudinary from '../config/cloudinary.config';
 import { Op } from 'sequelize';
 import { validateProduct } from '../validators';
 import { Product as ProductDTO } from '../validators/product.validator';
-
-export interface Params {
-  id: number;
-}
-
-export interface PaginationQuery {
-  page: string;
-  perPage: string;
-}
+import { Params, PaginationQuery } from '../interfaces';
 
 const getProducts: RequestHandler = async (
   _req: Request,
@@ -106,9 +98,7 @@ const getLimitedEdtionProducts: RequestHandler<
       model: ProductImages
     },
     where: {
-      quantity: {
-        [Op.lt]: 20
-      }
+      isLimited: true
     },
     offset: (page - 1) * page,
     limit: perPage,
