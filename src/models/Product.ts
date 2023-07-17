@@ -52,10 +52,11 @@ export default class Product extends Model {
   rating!: number;
 
   @Column({
-    type: DataType.INTEGER,
-    allowNull: false
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   })
-  quantity!: number;
+  isLimited!: boolean;
 
   @ForeignKey(() => Category)
   @Column({
