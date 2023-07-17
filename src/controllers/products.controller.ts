@@ -12,8 +12,8 @@ export interface Params {
 }
 
 export interface PaginationQuery {
-  page: number;
-  perPage: number;
+  page: string;
+  perPage: string;
 }
 
 const getProducts: RequestHandler = async (
@@ -70,8 +70,8 @@ const getPopularInTheCommunity: RequestHandler<
   req: Request<object, object, object, PaginationQuery>,
   res: Response
 ) => {
-  const page = req.query.page ?? 1;
-  const perPage = req.query.perPage ?? 1;
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
   const { count, rows } = await Product.findAndCountAll({
     include: {
       model: ProductImages
