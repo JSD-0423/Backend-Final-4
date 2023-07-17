@@ -7,7 +7,7 @@ const paginate = (data: any) => {
   const totalPerPage = data.perPage;
   const currentPage = data.page;
   const prevPage = currentPage === 1 ? null : currentPage - 1;
-  const nextPage = currentPage === totalPages ? null : currentPage + 1;
+  const nextPage = !data.rows ? null : currentPage + 1;
 
   return {
     data: data.data,
