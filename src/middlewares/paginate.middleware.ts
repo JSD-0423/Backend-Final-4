@@ -1,6 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { Product } from '../models';
-import { PaginationQuery } from '../controllers/products.controller';
+import { PaginationQuery } from '../interfaces';
 
 const paginate = (data: any) => {
   const totalPages = Math.ceil(data.count / data.perPage);
