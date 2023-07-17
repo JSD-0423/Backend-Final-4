@@ -12,10 +12,10 @@ import { paginateMiddleware } from '../middlewares/paginate.middleware';
 
 const productsRouter: Router = Router();
 
+productsRouter.use(['/popular', '/limited-edition', '/'], paginateMiddleware);
 productsRouter.get('/', use(getProducts));
 productsRouter.post('/', use(createProduct));
 productsRouter.put('/:id', use(uploadProductImage));
-productsRouter.use(['/popular', '/limited-edition'], paginateMiddleware);
 productsRouter.get('/popular', use(getPopularInTheCommunity));
 productsRouter.get('/limited-edition', use(getLimitedEdtionProducts));
 productsRouter.get('/:id', use(getProduct));
