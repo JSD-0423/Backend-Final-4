@@ -4,7 +4,7 @@ import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
 import validateCategory from '../validators/category.validator';
-import { Params } from './products.controller';
+import { Params } from '../interfaces';
 
 const getCategories: RequestHandler = async (
   _req: Request,

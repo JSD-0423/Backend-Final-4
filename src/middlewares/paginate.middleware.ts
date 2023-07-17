@@ -1,12 +1,12 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { Product } from '../models';
+import { PaginationQuery } from '../interfaces';
 
 const paginate = (data: any) => {
   const totalPages = Math.ceil(data.count / data.perPage);
   const totalPerPage = data.perPage;
   const currentPage = data.page;
   const prevPage = currentPage === 1 ? null : currentPage - 1;
-  const nextPage = currentPage === totalPages ? null : currentPage + 1;
+  const nextPage = !data.rows ? null : currentPage + 1;
 
   return {
     data: data.data,
@@ -25,15 +25,15 @@ export const paginateMiddleware: RequestHandler<
   object,
   object,
   object,
-  { page: number; perPage: number }
+  PaginationQuery
 > = (
-  req: Request<object, object, object, { page: number; perPage: number }>,
+  req: Request<object, object, object, PaginationQuery>,
   res: Response,
   next: NextFunction
 ) => {
   let oldSend = res.send;
-  const page = req.query.page ?? 1;
-  const perPage = req.query.perPage ?? 1;
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
 
   res.send = function (data) {
     let parsedData = JSON.parse(data);

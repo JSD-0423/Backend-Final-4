@@ -8,6 +8,7 @@ export interface Product {
   price: number;
   discount: number;
   rating: number;
+  quantity: number;
   category_id: number;
   brand_id: number;
 }
@@ -19,6 +20,7 @@ const ProductSchema = Joi.object({
   price: Joi.number().required(),
   discount: Joi.number().optional().default(0),
   rating: Joi.number().default(0),
+  quantity: Joi.number().required(),
   category_id: Joi.number().required(),
   brand_id: Joi.number().required()
 });

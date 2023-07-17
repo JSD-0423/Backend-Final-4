@@ -49,7 +49,14 @@ export default class Product extends Model {
     type: DataType.DOUBLE(3, 1),
     allowNull: false
   })
-  rating!: string;
+  rating!: number;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  })
+  isLimited!: boolean;
 
   @ForeignKey(() => Category)
   @Column({

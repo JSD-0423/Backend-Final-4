@@ -6,15 +6,7 @@ import cloudinary from '../config/cloudinary.config';
 import { Op } from 'sequelize';
 import { validateProduct } from '../validators';
 import { Product as ProductDTO } from '../validators/product.validator';
-
-export interface Params {
-  id: number;
-}
-
-export interface PaginationQuery {
-  page: number;
-  perPage: number;
-}
+import { Params, PaginationQuery } from '../interfaces';
 
 const getProducts: RequestHandler = async (
   _req: Request,
@@ -70,8 +62,8 @@ const getPopularInTheCommunity: RequestHandler<
   req: Request<object, object, object, PaginationQuery>,
   res: Response
 ) => {
-  const page = req.query.page ?? 1;
-  const perPage = req.query.perPage ?? 1;
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
   const { count, rows } = await Product.findAndCountAll({
     include: {
       model: ProductImages
@@ -80,6 +72,33 @@ const getPopularInTheCommunity: RequestHandler<
       rating: {
         [Op.gte]: 4.5
       }
+    },
+    offset: (page - 1) * page,
+    limit: perPage,
+    distinct: true
+  });
+
+  res.json({ count, rows });
+};
+
+const getLimitedEdtionProducts: RequestHandler<
+  object,
+  object,
+  object,
+  PaginationQuery
+> = async (
+  req: Request<object, object, object, PaginationQuery>,
+  res: Response
+) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
+
+  const { count, rows } = await Product.findAndCountAll({
+    include: {
+      model: ProductImages
+    },
+    where: {
+      isLimited: true
     },
     offset: (page - 1) * page,
     limit: perPage,
@@ -123,5 +142,6 @@ export {
   getProduct,
   createProduct,
   getPopularInTheCommunity,
-  uploadProductImage
+  uploadProductImage,
+  getLimitedEdtionProducts
 };
