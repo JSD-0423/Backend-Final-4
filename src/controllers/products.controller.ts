@@ -89,6 +89,35 @@ const getPopularInTheCommunity: RequestHandler<
   res.json({ count, rows });
 };
 
+const getLimitedEdtionProducts: RequestHandler<
+  object,
+  object,
+  object,
+  PaginationQuery
+> = async (
+  req: Request<object, object, object, PaginationQuery>,
+  res: Response
+) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
+
+  const { count, rows } = await Product.findAndCountAll({
+    include: {
+      model: ProductImages
+    },
+    where: {
+      quantity: {
+        [Op.lt]: 20
+      }
+    },
+    offset: (page - 1) * page,
+    limit: perPage,
+    distinct: true
+  });
+
+  return { count, rows };
+};
+
 const uploadProductImage: RequestHandler<Params> = async (
   req: Request<Params>,
   res: Response
