@@ -115,7 +115,7 @@ const getLimitedEdtionProducts: RequestHandler<
     distinct: true
   });
 
-  return { count, rows };
+  res.json({ count, rows });
 };
 
 const uploadProductImage: RequestHandler<Params> = async (
@@ -152,5 +152,6 @@ export {
   getProduct,
   createProduct,
   getPopularInTheCommunity,
-  uploadProductImage
+  uploadProductImage,
+  getLimitedEdtionProducts
 };
