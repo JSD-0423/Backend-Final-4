@@ -49,7 +49,13 @@ export default class Product extends Model {
     type: DataType.DOUBLE(3, 1),
     allowNull: false
   })
-  rating!: string;
+  rating!: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false
+  })
+  quantity!: number;
 
   @ForeignKey(() => Category)
   @Column({
