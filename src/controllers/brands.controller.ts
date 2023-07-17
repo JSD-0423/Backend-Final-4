@@ -4,7 +4,7 @@ import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
 import { validateBrand } from '../validators';
-import { Params } from './products.controller';
+import { Params } from '../interfaces';
 
 const getBrands: RequestHandler = async (
   _req: Request,
