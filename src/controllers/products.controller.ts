@@ -73,7 +73,7 @@ const getPopularInTheCommunity: RequestHandler<
         [Op.gte]: 4.5
       }
     },
-    offset: (page - 1) * page,
+    offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
   });
@@ -100,7 +100,7 @@ const getLimitedEdtionProducts: RequestHandler<
     where: {
       isLimited: true
     },
-    offset: (page - 1) * page,
+    offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
   });
@@ -131,7 +131,7 @@ const getNewArrivals: RequestHandler<
         [Op.between]: [threeMonthsAgo, currentDate]
       }
     },
-    offset: (page - 1) * page,
+    offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
   });
