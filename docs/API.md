@@ -19,8 +19,6 @@ GET /products/popular
 | page      | number | The page number to retrieve (default: 1)     |
 | perPage   | number | The number of products per page (default: 1) |
 
-
-
 ## Response
 
 The API response will be in JSON format and will include the following fields:
@@ -34,7 +32,7 @@ The API response will be in JSON format and will include the following fields:
   - `price` (float): The price of the product.
   - `discount` (float): The discount applied to the product.
   - `rating` (float): The rating of the product.
-  - `quantity` (integer): The number of items in stock.
+  - `isLimited` (boolean): Is the product limited.
   - `category_id` (integer): The ID of the category the product belongs to.
   - `brand_id` (integer): The ID of the brand the product belongs to.
   - `createdAt` (string): The date and time when the product was created.
@@ -51,8 +49,8 @@ The API response will be in JSON format and will include the following fields:
   - `totalPerPage` (integer): The maximum number of products per page.
   - `totalPages` (integer): The total number of pages based on the `totalRecords` and `totalPerPage`.
   - `currentPage` (integer): The current page number.
-  - `nextPage` (string or null): The URL of the next page, if available. Null if there is no next page.
-  - `prevPage` (string or null): The URL of the previous page, if available. Null if there is no previous page.
+  - `nextPage` (string or null): The number of the next page, if available. Null if there is no next page.
+  - `prevPage` (string or null): The number of the previous page, if available. Null if there is no previous page.
 
 ## Example
 
@@ -75,7 +73,7 @@ Response:
       "price": 23.5,
       "discount": 0,
       "rating": 4.5,
-      "quantity": 20,
+      "isLimited": false,
       "category_id": 1,
       "brand_id": 1,
       "createdAt": "2023-07-16T11:39:01.000Z",
@@ -136,7 +134,7 @@ The API response will be in JSON format and will include the following fields:
   - `price` (float): The price of the product.
   - `discount` (float): The discount applied to the product.
   - `rating` (float): The rating of the product.
-  - `quantity` (integer): The number of items in stock.
+  - `isLimited` (boolean): Is the product limited.
   - `category_id` (integer): The ID of the category the product belongs to.
   - `brand_id` (integer): The ID of the brand the product belongs to.
   - `createdAt` (string): The date and time when the product was created.
@@ -153,8 +151,8 @@ The API response will be in JSON format and will include the following fields:
   - `totalPerPage` (integer): The maximum number of products per page.
   - `totalPages` (integer): The total number of pages based on the `totalRecords` and `totalPerPage`.
   - `currentPage` (integer): The current page number.
-  - `nextPage` (string or null): The URL of the next page, if available. Null if there is no next page.
-  - `prevPage` (string or null): The URL of the previous page, if available. Null if there is no previous page.
+  - `nextPage` (string or null): The number of the next page, if available. Null if there is no next page.
+  - `prevPage` (string or null): The number of the previous page, if available. Null if there is no previous page.
 
 ## Example
 
@@ -177,7 +175,7 @@ Response:
       "price": 23.5,
       "discount": 0,
       "rating": 4.5,
-      "quantity": 15,
+      "isLimited": true,
       "category_id": 1,
       "brand_id": 1,
       "createdAt": "2023-07-16T11:39:01.000Z",
@@ -238,7 +236,7 @@ The API response will be in JSON format and will include the following fields:
   - `price` (float): The price of the product.
   - `discount` (float): The discount applied to the product.
   - `rating` (float): The rating of the product.
-  - `quantity` (integer): The number of items in stock.
+  - `isLimited` (boolean): Is the product limited.
   - `category_id` (integer): The ID of the category the product belongs to.
   - `brand_id` (integer): The ID of the brand the product belongs to.
   - `createdAt` (string): The date and time when the product was created.
@@ -255,8 +253,8 @@ The API response will be in JSON format and will include the following fields:
   - `totalPerPage` (integer): The maximum number of products per page.
   - `totalPages` (integer): The total number of pages based on the `totalRecords` and `totalPerPage`.
   - `currentPage` (integer): The current page number.
-  - `nextPage` (string or null): The URL of the next page, if available. Null if there is no next page.
-  - `prevPage` (string or null): The URL of the previous page, if available. Null if there is no previous page.
+  - `nextPage` (string or null): The number of the next page, if available. Null if there is no next page.
+  - `prevPage` (string or null): The number of the previous page, if available. Null if there is no previous page.
 
 ## Example
 
@@ -280,6 +278,109 @@ Response:
       "discount": 0,
       "rating": 4.5,
       "quantity": 15,
+      "category_id": 1,
+      "brand_id": 1,
+      "createdAt": "2023-07-16T11:39:01.000Z",
+      "updatedAt": "2023-07-16T11:39:01.000Z",
+      "images": [
+        {
+          "id": 1,
+          "image": "(cloudinary URL)",
+          "product_id": 1,
+          "createdAt": "2023-07-16T11:39:48.000Z",
+          "updatedAt": "2023-07-16T11:39:48.000Z"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "totalRecords": 1,
+    "totalPerPage": 1,
+    "totalPages": 1,
+    "currentPage": 1,
+    "nextPage": null,
+    "prevPage": null
+  }
+}
+```
+
+</details>
+
+<details>
+
+<summary><strong>Products with 15% discount 💥</strong></summary>
+
+Any products that have a discount of 15% or more.
+
+## Endpoint
+
+```http
+GET /products?discount=15
+```
+
+## Parameters
+
+| Parameter | Type   | Description                                  |
+| --------- | ------ | -------------------------------------------- |
+| page      | number | The page number to retrieve (default: 1)     |
+| perPage   | number | The number of products per page (default: 1) |
+| discount  | number | The specified discount of any products       |
+
+## Response
+
+The API response will be in JSON format and will include the following fields:
+
+- `data` (array): An array of popular product objects. Each object contains the following fields:
+
+  - `id` (integer): The unique identifier of the product.
+  - `name` (string): The name of the product.
+  - `description` (string): The description of the product.
+  - `color` (string): The color of the product.
+  - `price` (float): The price of the product.
+  - `discount` (float): The discount applied to the product.
+  - `rating` (float): The rating of the product.
+  - `isLimited` (boolean): Is the product limited.
+  - `category_id` (integer): The ID of the category the product belongs to.
+  - `brand_id` (integer): The ID of the brand the product belongs to.
+  - `createdAt` (string): The date and time when the product was created.
+  - `updatedAt` (string): The date and time when the product was last updated.
+  - `images` (array): An array of image objects associated with the product. Each image object contains the following fields:
+    - `id` (integer): The unique identifier of the image.
+    - `image` (string): The URL of the product image.
+    - `product_id` (integer): The ID of the product the image belongs to.
+    - `createdAt` (string): The date and time when the image was created.
+    - `updatedAt` (string): The date and time when the image was last updated.
+
+- `pagination` (object): An object containing pagination information.
+  - `totalRecords` (integer): The total number of popular products in the community.
+  - `totalPerPage` (integer): The maximum number of products per page.
+  - `totalPages` (integer): The total number of pages based on the `totalRecords` and `totalPerPage`.
+  - `currentPage` (integer): The current page number.
+  - `nextPage` (string or null): The number of the next page, if available. Null if there is no next page.
+  - `prevPage` (string or null): The number of the previous page, if available. Null if there is no previous page.
+
+## Example
+
+Request:
+
+```http
+GET /products?dicsount=15
+```
+
+Response:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "test",
+      "description": "test",
+      "color": "red",
+      "price": 23.5,
+      "discount": 0,
+      "rating": 4.5,
+      "isLimited": false,
       "category_id": 1,
       "brand_id": 1,
       "createdAt": "2023-07-16T11:39:01.000Z",
