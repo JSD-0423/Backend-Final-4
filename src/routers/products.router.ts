@@ -19,10 +19,22 @@ productsRouter.use(
 );
 productsRouter.get('/', use(getProducts));
 productsRouter.post('/', use(createProduct));
+productsRouter.get(
+  '/popular',
+  paginateMiddleware,
+  use(getPopularInTheCommunity)
+);
+productsRouter.get(
+  '/limited-edition',
+  paginateMiddleware,
+  use(getLimitedEdtionProducts)
+);
+productsRouter.get(
+  '/handpicked-collections',
+  paginateMiddleware,
+  use(getHandpickedCollections)
+);
 productsRouter.put('/:id', use(uploadProductImage));
-productsRouter.get('/popular', use(getPopularInTheCommunity));
-productsRouter.get('/limited-edition', use(getLimitedEdtionProducts));
-productsRouter.get('/handpicked-collections', use(getHandpickedCollections));
 productsRouter.get('/:id', use(getProduct));
 
 export default productsRouter;
