@@ -19,7 +19,7 @@ GET /products/popular
 | page      | number | The page number to retrieve (default: 1)     |
 | perPage   | number | The number of products per page (default: 1) |
 
-  </details>
+
 
 ## Response
 
