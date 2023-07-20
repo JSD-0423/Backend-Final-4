@@ -1,4 +1,4 @@
-import { Response, Router } from 'express';
+import { Router } from 'express';
 import {
   getProduct,
   getProducts,
@@ -34,6 +34,7 @@ productsRouter.get(
 );
 productsRouter.put('/:id', use(uploadProductImage));
 productsRouter.get('/search', paginateMiddleware, use(searchProducts));
+productsRouter.get('/new-arrivals', paginateMiddleware, use(searchProducts));
 productsRouter.get('/:id', use(getProduct));
 
 export default productsRouter;

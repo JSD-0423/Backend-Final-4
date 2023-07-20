@@ -8,13 +8,36 @@ import { validateProduct } from '../validators';
 import { Product as ProductDTO } from '../validators/product.validator';
 import { Params, PaginationQuery } from '../interfaces';
 
-const getProducts: RequestHandler = async (
-  _req: Request,
-  res: Response<Product[]>
+const getProducts: RequestHandler<
+  object,
+  object,
+  object,
+  PaginationQuery & { discount: string }
+> = async (
+  req: Request<object, object, object, PaginationQuery & { discount: string }>,
+  res: Response
 ) => {
-  const products = await Product.findAll({ include: { model: ProductImages } });
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
+  const discount = req.query.discount;
 
-  res.json(products);
+  let where: { discount?: any } = {};
+
+  if (discount) {
+    where.discount = {
+      [Op.gte]: parseInt(discount)
+    };
+  }
+
+  const { count, rows } = await Product.findAndCountAll({
+    include: { model: ProductImages },
+    where,
+    offset: (page - 1) * page,
+    limit: perPage,
+    distinct: true
+  });
+
+  res.json({ count, rows });
 };
 
 const getProduct: RequestHandler<Params> = async (

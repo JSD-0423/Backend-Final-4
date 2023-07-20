@@ -38,6 +38,9 @@ export const paginateMiddleware: RequestHandler<
 
   res.send = function (data) {
     let parsedData = JSON.parse(data);
+    res.send = oldSend;
+
+    if (parsedData?.error) res.send(parsedData);
 
     const result = paginate({
       data: parsedData.rows,
@@ -46,7 +49,6 @@ export const paginateMiddleware: RequestHandler<
       perPage
     });
 
-    res.send = oldSend;
     return res.send(result);
   };
 
