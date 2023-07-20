@@ -73,7 +73,7 @@ const getPopularInTheCommunity: RequestHandler<
         [Op.gte]: 4.5
       }
     },
-    offset: (page - 1) * page,
+    offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
   });
@@ -100,7 +100,38 @@ const getLimitedEdtionProducts: RequestHandler<
     where: {
       isLimited: true
     },
-    offset: (page - 1) * page,
+    offset: (page - 1) * perPage,
+    limit: perPage,
+    distinct: true
+  });
+
+  res.json({ count, rows });
+};
+
+const getNewArrivals: RequestHandler<
+  object,
+  object,
+  object,
+  PaginationQuery
+> = async (
+  req: Request<object, object, object, PaginationQuery>,
+  res: Response
+) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
+
+  const currentDate = new Date();
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(currentDate.getMonth() - 3);
+
+  const { count, rows } = await Product.findAndCountAll({
+    include: [ProductImages],
+    where: {
+      createdAt: {
+        [Op.between]: [threeMonthsAgo, currentDate]
+      }
+    },
+    offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
   });
@@ -127,7 +158,7 @@ const getHandpickedCollections: RequestHandler<
     where: {
       [Op.and]: [{ rating: { [Op.gt]: 4.5 } }, { price: { [Op.lt]: 100 } }]
     },
-    offset: (page - 1) * page,
+    offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
   });
@@ -171,5 +202,6 @@ export {
   getPopularInTheCommunity,
   uploadProductImage,
   getLimitedEdtionProducts,
+  getNewArrivals
   getHandpickedCollections
 };

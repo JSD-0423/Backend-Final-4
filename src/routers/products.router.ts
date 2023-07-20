@@ -6,6 +6,7 @@ import {
   getPopularInTheCommunity,
   uploadProductImage,
   getLimitedEdtionProducts,
+  getNewArrivals,
   getHandpickedCollections
 } from '../controllers/products.controller';
 import { use } from '../helpers';
@@ -13,11 +14,7 @@ import { paginateMiddleware } from '../middlewares/paginate.middleware';
 
 const productsRouter: Router = Router();
 
-productsRouter.use(
-  ['/popular', '/limited-edition', '/', '/handpicked-collections'],
-  paginateMiddleware
-);
-productsRouter.get('/', use(getProducts));
+productsRouter.get('/', paginateMiddleware, use(getProducts));
 productsRouter.post('/', use(createProduct));
 productsRouter.get(
   '/popular',
