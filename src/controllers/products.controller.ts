@@ -32,7 +32,7 @@ const getProducts: RequestHandler<
   const { count, rows } = await Product.findAndCountAll({
     include: { model: ProductImages },
     where,
-    offset: (page - 1) * page,
+    offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
   });
