@@ -202,6 +202,6 @@ export {
   getPopularInTheCommunity,
   uploadProductImage,
   getLimitedEdtionProducts,
-  getNewArrivals
+  getNewArrivals,
   getHandpickedCollections
 };
