@@ -108,6 +108,33 @@ const getLimitedEdtionProducts: RequestHandler<
   res.json({ count, rows });
 };
 
+const getHandpickedCollections: RequestHandler<
+  object,
+  object,
+  object,
+  PaginationQuery
+> = async (
+  req: Request<object, object, object, PaginationQuery>,
+  res: Response
+) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
+
+  const { count, rows } = await Product.findAndCountAll({
+    include: {
+      model: ProductImages
+    },
+    where: {
+      [Op.and]: [{ rating: { [Op.gt]: 4.5 } }, { price: { [Op.lt]: 100 } }]
+    },
+    offset: (page - 1) * page,
+    limit: perPage,
+    distinct: true
+  });
+
+  res.json({ count, rows });
+};
+
 const uploadProductImage: RequestHandler<Params> = async (
   req: Request<Params>,
   res: Response
@@ -143,5 +170,6 @@ export {
   createProduct,
   getPopularInTheCommunity,
   uploadProductImage,
-  getLimitedEdtionProducts
+  getLimitedEdtionProducts,
+  getHandpickedCollections
 };
