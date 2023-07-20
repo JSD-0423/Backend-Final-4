@@ -6,6 +6,7 @@ import {
   getPopularInTheCommunity,
   uploadProductImage,
   getLimitedEdtionProducts,
+  searchProducts,
   getNewArrivals,
   getHandpickedCollections
 } from '../controllers/products.controller';
@@ -32,11 +33,8 @@ productsRouter.get(
   use(getHandpickedCollections)
 );
 productsRouter.put('/:id', use(uploadProductImage));
-productsRouter.get(
-  '/popular',
-  paginateMiddleware,
-  use(getPopularInTheCommunity)
-);
+productsRouter.get('/search', paginateMiddleware, use(searchProducts));
+productsRouter.get('/new-arrivals', paginateMiddleware, use(searchProducts));
 productsRouter.get('/:id', use(getProduct));
 
 export default productsRouter;
