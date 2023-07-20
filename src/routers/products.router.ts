@@ -34,7 +34,7 @@ productsRouter.get(
 );
 productsRouter.put('/:id', use(uploadProductImage));
 productsRouter.get('/search', paginateMiddleware, use(searchProducts));
-productsRouter.get('/new-arrivals', paginateMiddleware, use(searchProducts));
+productsRouter.get('/new-arrivals', paginateMiddleware, use(getNewArrivals));
 productsRouter.get('/:id', use(getProduct));
 
 export default productsRouter;
