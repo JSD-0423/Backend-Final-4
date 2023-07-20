@@ -31,6 +31,7 @@ export const paginateMiddleware: RequestHandler<
   res: Response,
   next: NextFunction
 ) => {
+  if (req.method !== 'GET') return next();
   let oldSend = res.send;
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;

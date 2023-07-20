@@ -166,6 +166,41 @@ const getHandpickedCollections: RequestHandler<
   res.json({ count, rows });
 };
 
+const searchProducts: RequestHandler<
+  object,
+  object,
+  object,
+  PaginationQuery & { keyword: string }
+> = async (
+  req: Request<object, object, object, PaginationQuery & { keyword: string }>,
+  res: Response
+) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const perPage = req.query.perPage ? parseInt(req.query.perPage) : 1;
+  const keyword = req.query.keyword ?? '';
+
+  const { count, rows } = await Product.findAndCountAll({
+    where: {
+      [Op.or]: [
+        { name: { [Op.like]: `%${keyword}%` } },
+        { '$brand.name$': { [Op.like]: `%${keyword}%` } }
+      ]
+    },
+    include: [
+      {
+        model: Brand,
+        where: {}
+      },
+      { model: ProductImages }
+    ],
+    offset: (page - 1) * perPage,
+    limit: perPage,
+    distinct: true
+  });
+
+  res.json({ count, rows });
+};
+
 const uploadProductImage: RequestHandler<Params> = async (
   req: Request<Params>,
   res: Response
@@ -202,6 +237,7 @@ export {
   getPopularInTheCommunity,
   uploadProductImage,
   getLimitedEdtionProducts,
+  searchProducts,
   getNewArrivals,
   getHandpickedCollections
 };
