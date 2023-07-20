@@ -6,24 +6,34 @@ import {
   getPopularInTheCommunity,
   uploadProductImage,
   getLimitedEdtionProducts,
-  searchProducts
+  searchProducts,
+  getNewArrivals,
+  getHandpickedCollections
 } from '../controllers/products.controller';
 import { use } from '../helpers';
 import { paginateMiddleware } from '../middlewares/paginate.middleware';
 
 const productsRouter: Router = Router();
 
-productsRouter.use(
-  ['/popular', '/limited-edition', '/', '/search'],
-  paginateMiddleware
-);
-productsRouter.get('/', use(getProducts));
+productsRouter.get('/', paginateMiddleware, use(getProducts));
 productsRouter.post('/', use(createProduct));
+productsRouter.get(
+  '/popular',
+  paginateMiddleware,
+  use(getPopularInTheCommunity)
+);
+productsRouter.get(
+  '/limited-edition',
+  paginateMiddleware,
+  use(getLimitedEdtionProducts)
+);
+productsRouter.get(
+  '/handpicked-collections',
+  paginateMiddleware,
+  use(getHandpickedCollections)
+);
 productsRouter.put('/:id', use(uploadProductImage));
-productsRouter.use(['/popular', '/limited-edition'], paginateMiddleware);
-productsRouter.get('/popular', use(getPopularInTheCommunity));
-productsRouter.get('/search', use(searchProducts));
-productsRouter.get('/limited-edition', use(getLimitedEdtionProducts));
+productsRouter.get('/search', paginateMiddleware, use(searchProducts));
 productsRouter.get('/:id', use(getProduct));
 
 export default productsRouter;
