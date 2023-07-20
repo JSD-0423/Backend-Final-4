@@ -20,7 +20,7 @@ const ProductSchema = Joi.object({
   price: Joi.number().required(),
   discount: Joi.number().optional().default(0),
   rating: Joi.number().default(0),
-  quantity: Joi.number().required(),
+  isLimited: Joi.boolean().default(false),
   category_id: Joi.number().required(),
   brand_id: Joi.number().required()
 });
