@@ -1,4 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { Payload } from '../interfaces';
 
 const use =
   <P, ResBody, ReqBody, Query>(
@@ -11,4 +13,9 @@ const use =
   ) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
-export { use };
+const generateToken = (payload: Payload, secret: string) => {
+  const token = jwt.sign(payload, secret, { expiresIn: '10m' });
+  return token;
+};
+
+export { use, generateToken };
