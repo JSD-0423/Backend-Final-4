@@ -8,6 +8,7 @@ import express, {
 import { connect } from './connection/connect';
 import { productsRouter, categoriesRouter, brandsRouter } from './routers';
 import cors from 'cors';
+import passport from 'passport';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 import fileUpload from 'express-fileupload';
 import authRouter from './routers/auth.router';
@@ -24,6 +25,9 @@ app.use(
     tempFileDir: '/tmp'
   })
 );
+app.use(passport.initialize());
+
+require('./auth/passport');
 
 // Database Connection
 connect();
