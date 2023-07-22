@@ -1,8 +1,12 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { User } from '../models';
 import { validateUser } from '../validators';
 import { Payload } from '../interfaces';
 import httpStatus from 'http-status';
+import { CustomError } from '../middlewares/errors';
+import { compare } from '../utils/bcrypt';
+import { generateToken } from '../helpers';
+import envConfig from '../config/env.config';
 
 const signUp: RequestHandler<object, object, User> = async (
   req: Request<object, object, User>,
@@ -22,4 +26,29 @@ const signUp: RequestHandler<object, object, User> = async (
   res.status(httpStatus.CREATED).json(payload);
 };
 
-export { signUp };
+const signIn: RequestHandler = async (req: Request, res: Response) => {
+  validateUser(req.body);
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ where: { email } });
+
+  if (!user) {
+    throw new CustomError('User not found', httpStatus.NOT_FOUND);
+  }
+
+  if (!compare(password, user.password)) {
+    throw new CustomError('Invalid credentials', httpStatus.UNAUTHORIZED);
+  }
+
+  const payload: Payload = {
+    id: user.id,
+    name: user.name,
+    email: user.email
+  };
+
+  const token = generateToken(payload, envConfig.secret);
+
+  res.json({ user: payload, token });
+};
+
+export { signUp, signIn };
