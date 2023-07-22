@@ -12,5 +12,6 @@ export default {
   cloudinaryAPIKey: process.env.CLOUDINARY_API_KEY,
   cloudinaryAPISecret: process.env.CLOUDINARY_API_SECRET,
   cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-  salt: process.env.SALT ? parseInt(process.env.SALT) : 10
+  salt: process.env.SALT ? parseInt(process.env.SALT) : 10,
+  secret: process.env.SECRET ?? 'test'
 };
