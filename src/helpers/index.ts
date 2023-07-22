@@ -14,7 +14,7 @@ const use =
     Promise.resolve(fn(req, res, next)).catch(next);
 
 const generateToken = (payload: Payload, secret: string) => {
-  const token = jwt.sign(payload, secret, { expiresIn: '10m' });
+  const token = jwt.sign(payload, secret, { expiresIn: '30d' });
   return token;
 };
 
