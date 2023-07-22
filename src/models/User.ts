@@ -1,7 +1,15 @@
-import { Table, Model, Column, DataType, HasMany } from 'sequelize-typescript';
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  HasMany,
+  BeforeCreate
+} from 'sequelize-typescript';
 import Order from './Order';
 import FavouriteList from './FavouriteList';
 import Address from './Address';
+import { hashPassword } from '../utils/bcrypt';
 
 @Table({
   timestamps: true,
@@ -31,6 +39,12 @@ export default class User extends Model {
     }
   })
   email!: string;
+
+  @BeforeCreate
+  static hashPassword(user: User) {
+    const hash = hashPassword(user.password);
+    user.password = hash;
+  }
 
   @HasMany(() => Order)
   orders!: Order[];
