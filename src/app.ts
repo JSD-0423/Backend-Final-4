@@ -10,6 +10,7 @@ import { productsRouter, categoriesRouter, brandsRouter } from './routers';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 import fileUpload from 'express-fileupload';
+import authRouter from './routers/auth.router';
 
 const app: Application = express();
 
@@ -38,6 +39,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/products', productsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/brands', brandsRouter);
+app.use('/auth', authRouter);
 
 // Post Middlewares
 app.use(errorHandler);

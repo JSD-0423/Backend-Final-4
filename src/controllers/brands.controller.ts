@@ -1,4 +1,4 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import { Brand } from '../models';
 import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
