@@ -48,6 +48,8 @@ const signIn: RequestHandler = async (req: Request, res: Response) => {
 
   const token = generateToken(payload, envConfig.secret);
 
+  res.cookie('token', token, { httpOnly: true });
+
   res.json({ user: payload, token });
 };
 

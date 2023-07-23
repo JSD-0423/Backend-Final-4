@@ -6,9 +6,7 @@ import {
   HasMany,
   BeforeCreate
 } from 'sequelize-typescript';
-import Order from './Order';
-import FavouriteList from './FavouriteList';
-import Address from './Address';
+import { Order, FavouriteList, Address, Cart } from './';
 import { hashPassword } from '../utils/bcrypt';
 
 @Table({
@@ -54,4 +52,13 @@ export default class User extends Model {
 
   @HasMany(() => Address)
   addresses!: Address[];
+
+  @HasMany(() => Cart)
+  cart!: Cart;
+
+  async getCart() {
+    const cart = await Cart.findOrCreate({ where: { user_id: this.id } });
+
+    return cart;
+  }
 }
