@@ -4,7 +4,8 @@ import {
   Column,
   DataType,
   HasMany,
-  BeforeCreate
+  BeforeCreate,
+  HasOne
 } from 'sequelize-typescript';
 import { Order, FavouriteList, Address, Cart } from './';
 import { hashPassword } from '../utils/bcrypt';
@@ -53,7 +54,7 @@ export default class User extends Model {
   @HasMany(() => Address)
   addresses!: Address[];
 
-  @HasMany(() => Cart)
+  @HasOne(() => Cart)
   cart!: Cart;
 
   async getCart() {
