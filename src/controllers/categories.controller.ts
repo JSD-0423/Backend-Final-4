@@ -1,5 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { Category, Product } from '../models';
+import { Category, Product, ProductImages } from '../models';
 import { CustomError } from '../middlewares/errors';
 import httpStatus from 'http-status';
 import cloudinary from '../config/cloudinary.config';
@@ -43,12 +43,16 @@ const getCategoryProducts: RequestHandler<
   const { id } = req.params;
 
   const { count, rows } = await Product.findAndCountAll({
-    include: {
-      model: Category,
-      where: {
-        id
-      }
-    },
+    include: [
+      {
+        model: Category,
+        where: {
+          id
+        },
+        attributes: []
+      },
+      { model: ProductImages }
+    ],
     offset: (page - 1) * perPage,
     limit: perPage,
     distinct: true
