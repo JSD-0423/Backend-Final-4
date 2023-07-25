@@ -8,7 +8,7 @@ export interface User {
 }
 
 const UserSchema = Joi.object({
-  name: Joi.string().alphanum().required(),
+  name: Joi.string().required(),
   password: Joi.string().required(),
   email: Joi.string().email().required()
 });

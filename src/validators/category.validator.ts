@@ -7,7 +7,7 @@ export interface Category {
 }
 
 const CategorySchema = Joi.object({
-  name: Joi.string().alphanum().required(),
+  name: Joi.string().required(),
   description: Joi.string().required()
 });
 

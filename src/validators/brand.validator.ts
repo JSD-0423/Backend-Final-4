@@ -5,7 +5,7 @@ import { Category } from './category.validator';
 export type Brand = Category;
 
 const BrandSchema = Joi.object({
-  name: Joi.string().alphanum().required(),
+  name: Joi.string().required(),
   description: Joi.string().required()
 });
 
