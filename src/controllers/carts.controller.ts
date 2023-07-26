@@ -1,6 +1,7 @@
 import { Request, RequestHandler, Response } from 'express';
-import { User } from '../models';
-import { CREATED } from 'http-status';
+import { Cart, User } from '../models';
+import httpStatus from 'http-status';
+import { CustomError } from '../middlewares/errors';
 
 const addToCart: RequestHandler<
   object,
@@ -13,9 +14,11 @@ const addToCart: RequestHandler<
   const { productId, quantity } = req.body;
 
   const userId = req.userId;
-  const user = await User.findByPk(userId);
+  const user = await User.findByPk(userId, { include: { model: Cart } });
 
-  const cart = await user!.getCart();
+  if (!user) throw new CustomError('User not found', httpStatus.NOT_FOUND);
+
+  const cart = await user.getCart();
   const cartItems = await cart.$get('cartItems');
 
   const hasProduct = cartItems.find(
@@ -31,7 +34,7 @@ const addToCart: RequestHandler<
 
   await cart.updateTotalPrice();
 
-  res.status(CREATED).json({ msg: 'Item added successfully' });
+  res.status(httpStatus.CREATED).json({ msg: 'Item added successfully' });
 };
 
 export { addToCart };

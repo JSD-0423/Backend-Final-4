@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { CustomError } from './errors';
-import { UNAUTHORIZED } from 'http-status';
+import httpStatus from 'http-status';
 
 declare global {
   namespace Express {
@@ -17,7 +17,7 @@ const setUserId: RequestHandler = (
   next: NextFunction
 ) => {
   const { token } = req.cookies;
-  if (!token) next(new CustomError('Unauthenticated', UNAUTHORIZED));
+  if (!token) next(new CustomError('Unauthenticated', httpStatus.UNAUTHORIZED));
   const user = jwt.decode(token) as { id: number };
   req.userId = user.id;
   next();
