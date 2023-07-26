@@ -8,7 +8,7 @@ const cartsRouter: Router = Router();
 
 cartsRouter.use(passport.authenticate('jwt', { session: false }));
 
-cartsRouter.use(setUserId);
+cartsRouter.use(use(setUserId));
 
 cartsRouter.post('/add-to-cart', use(addToCart));
 
