@@ -14,6 +14,7 @@ import fileUpload from 'express-fileupload';
 import authRouter from './routers/auth.router';
 import cartsRouter from './routers/carts.router';
 import cookieParser from 'cookie-parser';
+import httpStatus from 'http-status';
 
 const app: Application = express();
 
@@ -48,6 +49,11 @@ app.use('/categories', categoriesRouter);
 app.use('/brands', brandsRouter);
 app.use('/auth', authRouter);
 app.use('/carts', cartsRouter);
+
+// Handle not found routes
+app.get('*', function (_req: Request, res: Response) {
+  res.status(httpStatus.NOT_FOUND).json({ msg: 'Not Found 😕' });
+});
 
 // Post Middlewares
 app.use(errorHandler);
