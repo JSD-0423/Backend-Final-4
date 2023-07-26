@@ -40,7 +40,7 @@ export default class Cart extends Model {
     allowNull: false,
     defaultValue: 'Pending'
   })
-  status!: boolean;
+  status!: string;
 
   @BelongsTo(() => User)
   user!: User;
@@ -56,5 +56,5 @@ export default class Cart extends Model {
   order!: Order;
 
   @HasMany(() => CartItem)
-  cartItems!: CartItem;
+  cartItems!: CartItem[];
 }

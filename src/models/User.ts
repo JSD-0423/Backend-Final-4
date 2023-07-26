@@ -57,9 +57,14 @@ export default class User extends Model {
   @HasOne(() => Cart)
   cart!: Cart;
 
-  async getCart() {
-    const cart = await Cart.findOrCreate({ where: { user_id: this.id } });
+  async getCart(): Promise<Cart> {
+    const cart = await Cart.findOrCreate({
+      where: { user_id: this.id },
+      defaults: {
+        total: 0
+      }
+    });
 
-    return cart;
+    return cart[0];
   }
 }
