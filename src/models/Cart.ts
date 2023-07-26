@@ -8,7 +8,9 @@ import {
   HasOne,
   ForeignKey
 } from 'sequelize-typescript';
-import { User, Order, CartItem } from './';
+import { User, Order, CartItem, Product } from './';
+import { CustomError } from '../middlewares/errors';
+import { NOT_FOUND } from 'http-status';
 
 @Table({
   timestamps: true,
@@ -57,4 +59,46 @@ export default class Cart extends Model {
 
   @HasMany(() => CartItem)
   cartItems!: CartItem[];
+
+  async addCartItem(cart: { productId: number; quantity: number }) {
+    const cart_id: number = this.id;
+    const { productId, quantity } = cart;
+
+    const product = await Product.findByPk(productId);
+    if (!product) throw new CustomError('Product not Found', NOT_FOUND);
+
+    const cartItem = new CartItem({
+      cart_id,
+      product_id: productId,
+      quantity
+    });
+
+    await this.$add('cartItems', cartItem);
+  }
+
+  async updateTotalPrice() {
+    const cartItems = (await this.$get('cartItems', {
+      include: Product
+    })) as CartItem[];
+
+    let newTotal = 0;
+    let totalDiscount = 0;
+
+    cartItems.forEach(cartItem => {
+      const product = cartItem.product;
+      if (product) {
+        const discountedPrice =
+          product.discount > 0
+            ? product.price * (1 - product.discount / 100)
+            : product.price;
+        newTotal += discountedPrice * cartItem.quantity;
+        totalDiscount += product.discount;
+      }
+    });
+
+    this.total = newTotal - newTotal * this.tax;
+    this.discount = totalDiscount;
+
+    await this.save();
+  }
 }
