@@ -4,11 +4,10 @@ import {
   Column,
   DataType,
   HasMany,
-  BeforeCreate
+  BeforeCreate,
+  HasOne
 } from 'sequelize-typescript';
-import Order from './Order';
-import FavouriteList from './FavouriteList';
-import Address from './Address';
+import { Order, FavouriteList, Address, Cart } from './';
 import { hashPassword } from '../utils/bcrypt';
 
 @Table({
@@ -54,4 +53,18 @@ export default class User extends Model {
 
   @HasMany(() => Address)
   addresses!: Address[];
+
+  @HasOne(() => Cart)
+  cart!: Cart;
+
+  async getCart(): Promise<Cart> {
+    const cart = await Cart.findOrCreate({
+      where: { user_id: this.id },
+      defaults: {
+        total: 0
+      }
+    });
+
+    return cart[0];
+  }
 }

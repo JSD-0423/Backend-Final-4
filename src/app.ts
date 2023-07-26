@@ -12,6 +12,8 @@ import passport from 'passport';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 import fileUpload from 'express-fileupload';
 import authRouter from './routers/auth.router';
+import cartsRouter from './routers/carts.router';
+import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 
@@ -26,6 +28,7 @@ app.use(
   })
 );
 app.use(passport.initialize());
+app.use(cookieParser());
 
 require('./auth/passport');
 
@@ -44,6 +47,7 @@ app.use('/products', productsRouter);
 app.use('/categories', categoriesRouter);
 app.use('/brands', brandsRouter);
 app.use('/auth', authRouter);
+app.use('/carts', cartsRouter);
 
 // Post Middlewares
 app.use(errorHandler);
