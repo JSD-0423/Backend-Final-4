@@ -13,3 +13,14 @@ services:
       - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
     volumes:
       - $HOME/database:/var/lib/mysql
+
+  phpmyadmin:
+    depends_on:
+      - mysqldb
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8090:80'
+    environment:
+      PMA_HOST: mysqldb
+      MYSQL_ROOT_PASSWORD: password
