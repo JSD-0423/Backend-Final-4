@@ -613,3 +613,162 @@ Response:
 ```
 
 </details>
+
+<details>
+
+<summary><strong>Favourites</strong></summary>
+
+An overview of the Favourites API routes, which enable users to manage their favourite products. These routes require users to be authenticated and logged in to perform any actions related to their favourites.
+
+**Authentication**
+
+All Favourites routes require users to be authenticated before accessing them. The routes use JSON Web Tokens (JWT) for authentication, ensuring secure access to favourite functionalities. Users must pass the JWT token as a Bearer token in the Authorization header of the request.
+
+**Base URL**
+
+The base URL for all Favourites routes is `/favourites`.
+
+---
+
+**GET `/`**
+
+**Description**
+
+Retrieve a list of products that the authenticated user has marked as favourites.
+
+**Method**
+
+```http
+  GET /favourites
+```
+
+**Authentication**
+
+Required (JWT token)
+
+**Headers**
+
+- `Authorization`: Bearer `<JWT_TOKEN>`
+
+**Response**
+
+- Status Code: 200 (OK)
+- Content-Type: application/json
+- Body: An array of favourite products in JSON format.
+
+**Example Response**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "test",
+    "description": "test",
+    "color": "red",
+    "price": 23.5,
+    "discount": 0,
+    "rating": 4.5,
+    "isLimited": false,
+    "category_id": 1,
+    "brand_id": 1,
+    "createdAt": "2023-07-16T11:39:01.000Z",
+    "updatedAt": "2023-07-16T11:39:01.000Z",
+    "images": [
+      {
+        "id": 1,
+        "image": "(cloudinary URL)",
+        "product_id": 1,
+        "createdAt": "2023-07-16T11:39:48.000Z",
+        "updatedAt": "2023-07-16T11:39:48.000Z"
+      }
+    ]
+  }
+]
+```
+
+---
+
+**POST `/favourites/toggle`**
+
+**Description**
+
+Add or remove a product from the authenticated user's favourites.
+
+**Method**
+
+```http
+POST /favourites/toggle
+```
+
+**Authentication**
+
+Required (JWT token)
+
+**Headers**
+
+- `Authorization`: Bearer `<JWT_TOKEN>`
+
+**Request Body**
+
+```json
+{
+  "product_id": 1
+}
+```
+
+- `product_id`: The ID of the product to add or remove from favourites.
+
+**Response**
+
+- Status Code: 200 (OK)
+- Content-Type: application/json
+- Body: An object with a message indicating the action performed.
+
+**Example Request**
+
+```json
+{
+  "productId": 1
+}
+```
+
+**Example Response (Adding a Product)**
+
+```json
+{
+  "message": "Product added to favorites"
+}
+```
+
+**Example Response (Removing a Product)**
+
+```json
+{
+  "message": "Product removed from favorites"
+}
+```
+
+---
+
+**Error Responses**
+
+The API provides detailed error responses for various scenarios:
+
+- Status Code: 401 (Unauthorized)
+
+  - When the user is not authenticated or the JWT token is missing or invalid.
+
+- Status Code: 404 (Not Found)
+
+  - When the user is not found in the database.
+
+- Status Code: 404 (Not Found)
+
+  - When the specified product is not found in the database.
+
+- Status Code: 500 (Internal Server Error)
+  - For any unexpected server-side errors.
+
+---
+
+</details>
