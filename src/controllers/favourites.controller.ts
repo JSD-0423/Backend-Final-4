@@ -31,4 +31,26 @@ const toggleFav: RequestHandler<object, object, { productId: number }> = async (
   }
 };
 
-export { toggleFav };
+const getFavouriteProducts: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const userId = req.userId;
+
+  const user = await User.findByPk(userId);
+  if (!user) throw new CustomError('User not found', httpStatus.NOT_FOUND);
+
+  const products = await Product.findAll({
+    include: {
+      model: User,
+      attributes: [],
+      where: {
+        id: userId
+      }
+    }
+  });
+
+  res.status(httpStatus.OK).json(products);
+};
+
+export { toggleFav, getFavouriteProducts };
