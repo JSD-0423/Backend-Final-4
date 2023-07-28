@@ -6,13 +6,18 @@ import express, {
   urlencoded
 } from 'express';
 import { connect } from './connection/connect';
-import { productsRouter, categoriesRouter, brandsRouter } from './routers';
+import {
+  productsRouter,
+  categoriesRouter,
+  brandsRouter,
+  authRouter,
+  cartsRouter,
+  favRouter
+} from './routers';
 import cors from 'cors';
 import passport from 'passport';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 import fileUpload from 'express-fileupload';
-import authRouter from './routers/auth.router';
-import cartsRouter from './routers/carts.router';
 import cookieParser from 'cookie-parser';
 import httpStatus from 'http-status';
 
@@ -49,6 +54,7 @@ app.use('/categories', categoriesRouter);
 app.use('/brands', brandsRouter);
 app.use('/auth', authRouter);
 app.use('/carts', cartsRouter);
+app.use('/favourites', favRouter);
 
 // Handle not found routes
 app.get('*', function (_req: Request, res: Response) {
