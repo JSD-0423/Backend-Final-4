@@ -5,9 +5,10 @@ import {
   DataType,
   HasMany,
   BeforeCreate,
-  HasOne
+  HasOne,
+  BelongsToMany
 } from 'sequelize-typescript';
-import { Order, FavouriteList, Address, Cart } from './';
+import { Order, FavouriteList, Address, Cart, Product } from './';
 import { hashPassword } from '../utils/bcrypt';
 
 @Table({
@@ -48,8 +49,8 @@ export default class User extends Model {
   @HasMany(() => Order)
   orders!: Order[];
 
-  @HasMany(() => FavouriteList)
-  favouriteLists!: FavouriteList[];
+  @BelongsToMany(() => Product, () => FavouriteList)
+  favouriteList!: Product[];
 
   @HasMany(() => Address)
   addresses!: Address[];
