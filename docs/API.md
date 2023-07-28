@@ -639,7 +639,7 @@ Retrieve a list of products that the authenticated user has marked as favourites
 **Method**
 
 ```http
-  GET /favourites
+GET /favourites
 ```
 
 **Authentication**
