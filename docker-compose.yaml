@@ -36,6 +36,7 @@ services:
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
+      - PORT=8080
       - DB_HOST=mysqldb
       - DB_USER=root
       - DB_PASSWORD=$MYSQL_ROOT_PASSWORD
