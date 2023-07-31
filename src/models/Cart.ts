@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { User, Order, CartItem, Product } from './';
 import { CustomError } from '../middlewares/errors';
-import { NOT_FOUND } from 'http-status';
+import httpStatus from 'http-status';
 
 @Table({
   timestamps: true,
@@ -65,7 +65,8 @@ export default class Cart extends Model {
     const { productId, quantity } = cart;
 
     const product = await Product.findByPk(productId);
-    if (!product) throw new CustomError('Product not Found', NOT_FOUND);
+    if (!product)
+      throw new CustomError('Product not Found', httpStatus.NOT_FOUND);
 
     const cartItem = new CartItem({
       cart_id,

@@ -5,9 +5,17 @@ import {
   DataType,
   BelongsTo,
   ForeignKey,
-  HasMany
+  HasMany,
+  BelongsToMany
 } from 'sequelize-typescript';
-import { Category, Brand, ProductImages, FavouriteList, CartItem } from './';
+import {
+  Category,
+  Brand,
+  ProductImages,
+  FavouriteList,
+  CartItem,
+  User
+} from './';
 
 @Table({
   timestamps: true,
@@ -91,8 +99,8 @@ export default class Product extends Model {
     return image;
   }
 
-  @HasMany(() => FavouriteList)
-  favouriteLists!: FavouriteList[];
+  @BelongsToMany(() => User, () => FavouriteList)
+  users!: User[];
 
   @HasMany(() => CartItem)
   cartItems!: CartItem[];
