@@ -904,3 +904,51 @@ POST /signin
 **Note:** The token will be stored by default in cookies, so no need to store it again, just use it for passing the Bearer token in Auth header.
 
 </details>
+
+<details>
+
+  <summary> <strong>Cart</strong> </summary>
+
+## addToCart Route
+
+### Description
+This route allows authenticated users to add products to their shopping cart. The route expects the product ID and quantity to be added in the request body. If the product is already present in the cart, the quantity will be updated. Otherwise, a new item will be added to the cart.
+
+### Route Path
+```http
+POST /add-to-cart
+```
+
+### Authentication
+This route requires authentication using a JSON Web Token (JWT) obtained after the user signs in. The token should be included in the request headers as `Authorization: Bearer <token>`.
+
+### Request Body
+- `productId` (number): The ID of the product to add to the cart.
+- `quantity` (number): The quantity of the product to add to the cart.
+
+### Response
+- Status Code: 201 (Created)
+- Response Body: A JSON response with a message indicating that the item has been added to the cart successfully.
+
+### Example
+```http
+POST /add-to-cart
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (JWT token)
+
+{
+  "productId": 12345,
+  "quantity": 2
+}
+```
+
+### Response Example
+```json
+{
+  "msg": "Item added successfully"
+}
+```
+
+### Notes
+- Make sure to include the JWT token obtained after successful user authentication in the request headers as `Authorization: Bearer <token>`.
+
+</details>
