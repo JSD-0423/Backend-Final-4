@@ -772,3 +772,86 @@ The API provides detailed error responses for various scenarios:
 ---
 
 </details>
+
+<details>
+  <summary><strong>Authentication</strong></summary>
+
+## signUp Route
+
+### Description
+This route is used for user registration. It expects the user's name, email, and password in the request body. The user data will be validated, and if everything is correct, a new user will be created and returned as a JSON response along with a status code 201 (Created).
+
+### Route Path
+```http
+POST /signup
+```
+
+### Request Body
+- `name` (string): The name of the user.
+- `email` (string): The email address of the user.
+- `password` (string): The password for the user account.
+
+### Response
+- Status Code: 201 (Created)
+- Response Body: The newly created user data in JSON format, including the user's ID, name, and email.
+
+### Example
+```
+POST /signup
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "secretPassword123"
+}
+```
+
+### Response Example
+```json
+{
+  "id": "12345",
+  "name": "John Doe",
+  "email": "john.doe@example.com"
+}
+```
+
+## signIn Route
+
+### Description
+This route is used for user authentication. It expects the user's email and password in the request body. The user data will be validated, and if the credentials are correct, a JSON response containing the user data and an authentication token will be returned with a status code 200 (OK).
+
+### Route Path
+```http
+POST /signin
+```
+
+### Request Body
+- `email` (string): The email address of the user.
+- `password` (string): The password for the user account.
+
+### Response
+- Status Code: 200 (OK)
+- Response Body:
+  - `user`: The user data in JSON format, including the user's ID, name, and email.
+  - `token`: An authentication token that can be used for subsequent authorized requests.
+
+### Example
+```http
+POST /signin
+{
+  "email": "john.doe@example.com",
+  "password": "secretPassword123"
+}
+```
+
+### Response Example
+```json
+{
+  "user": {
+    "id": "12345",
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (JWT token)"
+}
+```
+</details>
