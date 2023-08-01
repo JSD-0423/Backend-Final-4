@@ -900,4 +900,7 @@ POST /signin
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (JWT token)"
 }
 ```
+
+**Note:** The token will be stored by default in cookies, so no need to store it again, just use it for passing the Bearer token in Auth header.
+
 </details>
