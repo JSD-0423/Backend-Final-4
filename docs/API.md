@@ -688,16 +688,16 @@ Required (JWT token)
 
 ---
 
-**POST `/favourites/toggle`**
+**POST `/favourites/add`**
 
 **Description**
 
-Add or remove a product from the authenticated user's favourites.
+Add a product from the authenticated user's favourites.
 
 **Method**
 
 ```http
-POST /favourites/toggle
+POST /favourites/add
 ```
 
 **Authentication**
@@ -712,11 +712,11 @@ Required (JWT token)
 
 ```json
 {
-  "product_id": 1
+  "productId": 1
 }
 ```
 
-- `product_id`: The ID of the product to add or remove from favourites.
+- `productId`: The ID of the product to add from favourites.
 
 **Response**
 
@@ -732,7 +732,7 @@ Required (JWT token)
 }
 ```
 
-**Example Response (Adding a Product)**
+**Example Response**
 
 ```json
 {
@@ -740,7 +740,53 @@ Required (JWT token)
 }
 ```
 
-**Example Response (Removing a Product)**
+---
+
+**POST `/favourites/remove`**
+
+**Description**
+
+Add a product from the authenticated user's favourites.
+
+**Method**
+
+```http
+POST /favourites/add
+```
+
+**Authentication**
+
+Required (JWT token)
+
+**Headers**
+
+- `Authorization`: Bearer `<JWT_TOKEN>`
+
+**Request Body**
+
+```json
+{
+  "productId": 1
+}
+```
+
+- `productId`: The ID of the product to remove from favourites.
+
+**Response**
+
+- Status Code: 200 (OK)
+- Content-Type: application/json
+- Body: An object with a message indicating the action performed.
+
+**Example Request**
+
+```json
+{
+  "productId": 1
+}
+```
+
+**Example Response**
 
 ```json
 {
@@ -796,7 +842,7 @@ POST /signup
 - Response Body: The newly created user data in JSON format, including the user's ID, name, and email.
 
 ### Example
-```
+```http
 POST /signup
 {
   "name": "John Doe",
