@@ -62,17 +62,19 @@ export default class Cart extends Model {
 
   async addCartItem(cart: { productId: number; quantity: number }) {
     const cart_id: number = this.id;
-    const { productId, quantity } = cart;
+    const { productId: product_id, quantity } = cart;
 
-    const product = await Product.findByPk(productId);
+    const product = await Product.findByPk(product_id);
     if (!product)
       throw new CustomError('Product not Found', httpStatus.NOT_FOUND);
 
     const cartItem = new CartItem({
       cart_id,
-      product_id: productId,
+      product_id: product_id,
       quantity
     });
+
+    await cartItem.save();
 
     await this.$add('cartItems', cartItem);
   }
@@ -93,7 +95,7 @@ export default class Cart extends Model {
             ? product.price * (1 - product.discount / 100)
             : product.price;
         newTotal += discountedPrice * cartItem.quantity;
-        totalDiscount += product.discount;
+        totalDiscount += (product.discount / 100) * product.price;
       }
     });
 
