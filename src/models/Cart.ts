@@ -95,7 +95,7 @@ export default class Cart extends Model {
             ? product.price * (1 - product.discount / 100)
             : product.price;
         newTotal += discountedPrice * cartItem.quantity;
-        totalDiscount += product.discount;
+        totalDiscount += (product.discount / 100) * product.price;
       }
     });
 

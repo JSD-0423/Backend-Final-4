@@ -15,7 +15,7 @@ cartsRouter.use(passport.authenticate('jwt', { session: false }));
 cartsRouter.use(use(setUserId));
 
 cartsRouter.get('/', use(getCartProducts));
-cartsRouter.post('/add', use(addToCart));
-cartsRouter.post('/remove', use(removeFromCart));
+cartsRouter.post('/', use(addToCart));
+cartsRouter.delete('/', use(removeFromCart));
 
 export default cartsRouter;
