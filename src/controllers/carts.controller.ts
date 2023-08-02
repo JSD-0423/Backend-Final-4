@@ -72,4 +72,18 @@ const removeFromCart: RequestHandler<
     .json({ msg: 'Item removed from cart successfully' });
 };
 
-export { addToCart, removeFromCart };
+const getCartProducts: RequestHandler = async (req: Request, res: Response) => {
+  const userId = req.userId;
+  const user = await User.findByPk(userId, { include: { model: Cart } });
+
+  if (!user) throw new CustomError('User not found', httpStatus.NOT_FOUND);
+
+  const cart = await user.getCart();
+  const cartItems = await cart.$get('cartItems', {
+    include: { model: Product }
+  });
+
+  res.status(httpStatus.OK).json(cartItems);
+};
+
+export { addToCart, removeFromCart, getCartProducts };
