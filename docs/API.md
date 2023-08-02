@@ -829,7 +829,7 @@ This route is used for user registration. It expects the user's name, email, and
 
 ### Route Path
 ```http
-POST /signup
+POST /auth/signup
 ```
 
 ### Request Body
@@ -843,7 +843,7 @@ POST /signup
 
 ### Example
 ```http
-POST /signup
+POST /auth/signup
 {
   "name": "John Doe",
   "email": "john.doe@example.com",
@@ -867,7 +867,7 @@ This route is used for user authentication. It expects the user's email and pass
 
 ### Route Path
 ```http
-POST /signin
+POST /auth/signin
 ```
 
 ### Request Body
@@ -882,7 +882,7 @@ POST /signin
 
 ### Example
 ```http
-POST /signin
+POST /auth/signin
 {
   "email": "john.doe@example.com",
   "password": "secretPassword123"
