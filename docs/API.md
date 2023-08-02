@@ -916,7 +916,7 @@ This route allows authenticated users to add products to their shopping cart. Th
 
 ### Route Path
 ```http
-POST /add-to-cart
+POST /carts
 ```
 
 ### Authentication
@@ -932,7 +932,7 @@ This route requires authentication using a JSON Web Token (JWT) obtained after t
 
 ### Example
 ```http
-POST /add-to-cart
+POST /carts
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (JWT token)
 
 {
@@ -946,6 +946,106 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (JWT token)
 {
   "msg": "Item added successfully"
 }
+```
+
+
+## removeFromCart Route
+
+### Description
+This route allows authenticated users to remove products from their shopping cart. The route expects the product ID to be added in the request body. If the product is already present in the cart, it will be deleted. Otherwise, a message should appears to you to confirm that the product not found in the existing cart.
+
+### Route Path
+```http
+DELETE /carts
+```
+
+### Authentication
+This route requires authentication using a JSON Web Token (JWT) obtained after the user signs in. The token should be included in the request headers as `Authorization: Bearer <token>`.
+
+### Request Body
+- `productId` (number): The ID of the product to add to the cart.
+
+### Response
+- Status Code: 201 (Created)
+- Response Body: A JSON response with a message indicating that the item has been added to the cart successfully.
+
+### Example
+```http
+POST /carts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (JWT token)
+
+{
+  "productId": 12345,
+}
+```
+
+### Response Example
+```json
+{
+  "msg": "Item removed from cart successfully"
+}
+```
+
+## getCartProducts Route
+
+### Description
+This route allows authenticated users to get their products which they were added to their carts.
+
+### Route Path
+```http
+GET /carts
+```
+
+### Authentication
+This route requires authentication using a JSON Web Token (JWT) obtained after the user signs in. The token should be included in the request headers as `Authorization: Bearer <token>`.
+
+### Request Body
+No need
+
+### Response
+- Status Code: 200 (OK)
+- Response Body: A JSON response with products.
+
+### Example
+```http
+POST /carts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (JWT token)
+```
+
+### Response Example
+```json
+[
+    {
+        "id": 5,
+        "cart_id": 1,
+        "product_id": 4,
+        "quantity": 1,
+        "product": {
+            "id": 4,
+            "name": "test",
+            "description": "test",
+            "color": "red",
+            "price": 23.5,
+            "discount": 0,
+            "rating": 4.5,
+            "isLimited": false,
+            "category_id": 2,
+            "brand_id": 2,
+            "createdAt": "2023-08-02T04:34:01.000Z",
+            "updatedAt": "2023-08-02T04:34:01.000Z",
+             "images": [
+              {
+                "id": 1,
+                "image": "(cloudinary URL)",
+                "product_id": 4,
+                "createdAt": "2023-07-16T11:39:48.000Z",
+                "updatedAt": "2023-07-16T11:39:48.000Z"
+              }
+            ]
+        }
+    },
+...
+]
 ```
 
 ### Notes
